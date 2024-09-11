@@ -12,7 +12,7 @@
       h = d.getHours();
       m = d.getMinutes();
       s = d.getSeconds();
-      [h,m,s] = [h,m,s].map(x=>x.toString.padStart(2,"0"));
+      [h,m,s] = [h,m,s].map(x=>x.toString().padStart(2,"0"));
       time.innerText = [h,m,s].join(":");
     }, 50);
   </script>
