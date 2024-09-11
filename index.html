@@ -10,8 +10,8 @@
     setInterval(()=>{
       d = new Date();
       h = d.getHours();
-      m = getMinutes();
-      s = getSeconds();
+      m = d.getMinutes();
+      s = d.getSeconds();
       [h,m,s] = [h,m,s].map(x=>x.toString.padStart(2,"0"));
       time.innerText = [h,m,s].join(":");
     }, 50);
