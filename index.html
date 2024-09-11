@@ -1,0 +1,19 @@
+<html>
+  <body>
+    <span id="time"></span>
+  </body>
+  <script>
+    var d;
+    var h = 0;
+    var m = 0;
+    var s = 0;
+    setInterval(()=>{
+      d = new Date();
+      h = d.getHours();
+      m = getMinutes();
+      s = getSeconds();
+      [h,m,s] = [h,m,s].map(x=>x.toString.padStart(2,"0");
+      time.innerText = [h,m,s].join(":")
+    }, 50);
+  </script>
+</html>
