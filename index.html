@@ -54,13 +54,14 @@
     }
     function diffT(t1, t2 = 0){//can also be used to get t parsed
       var t = t1 - t2;
+      var T = t;
       var h = Math.floor(t / (60*60*1000));
       t = t % (60*60*1000);
       var m = Math.floor(t / (60*1000));
       t = t % (60*1000);
       var s = Math.floor(t / 1000);
       var ms = t % 1000;
-      return {t,h,m,s,ms};
+      return {t:T,h,m,s,ms};
     }
     setInterval(()=>{
       d = new Date();
@@ -74,8 +75,8 @@
       SS.innerText = s.toString().padStart(2,"0");
       M.innerText = meridiem;
       if(t < (genT(8,40,0,0) + off)){
+        debugger;
         var diff = diffT((genT(8,40,0,0) + off), t);
-        console.log(diff,t);
         note.innerText = `School hasn't started yet. ${diff.h}h ${diff.m}m ${diff.s}s left`;
       }
     }, 50);
