@@ -35,23 +35,48 @@
         <span id="SS">00</span>
         <br>
         <span id="M">AM</span>
-      </div></div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <span id="note" style="display: block;"></span>
+    <progress max="10000" value="0"></progress>
   </body>
   <script>
     var d;
     var h = 0;
     var m = 0;
     var s = 0;
+    t = 0;
+    off = -12000;
+    function genT(h, m, s, ms){
+      return (h*60*60*1000) + (m * 60*1000) + (s*1000) + ms;
+    }
+    function diffT(t1, t2){
+      var t = t1 - t2;
+      var h = Math.floor(t / (60*60*1000));
+      t = t % (60*60*1000);
+      var m = Math.floor(t / (60*1000));
+      t = t % (60*1000);
+      var s = Math.floor(t / 1000);
+      var ms = t % 1000;
+      return {t,h,m,s,ms};
+    }
     setInterval(()=>{
       d = new Date();
       h = d.getHours();
       m = d.getMinutes();
       s = d.getSeconds();
-      meridiem = (h < 12) ? "AM":"PM";
       ms = Math.floor(d.getMilliseconds() * 10);
+      t = genT(h,m,s,ms);
+      meridiem = (h < 12) ? "AM":"PM";
       MMHH.innerText = ((h % 12) || 12).toString().padStart(2,"0") + ":" + m.toString().padStart(2,"0");
       SS.innerText = s.toString().padStart(2,"0");
       M.innerText = meridiem;
+      if(t < (genT(8,40,0,0) + off)){
+        var diff = diffT((genT(8,40,0,0) + off), t) 
+        note.innerText = `School hasn't started yet. ${diff.h}h ${diff.m}m ${diff.s}s left`;
+      }
     }, 50);
   </script>
 </html>
