@@ -52,7 +52,7 @@
     function genT(h, m, s, ms){
       return (h*60*60*1000) + (m * 60*1000) + (s*1000) + ms;
     }
-    function diffT(t1, t2){
+    function diffT(t1, t2 = 0){//can also be used to get t parsed
       var t = t1 - t2;
       var h = Math.floor(t / (60*60*1000));
       t = t % (60*60*1000);
@@ -74,7 +74,8 @@
       SS.innerText = s.toString().padStart(2,"0");
       M.innerText = meridiem;
       if(t < (genT(8,40,0,0) + off)){
-        var diff = diffT((genT(8,40,0,0) + off), t) 
+        var diff = diffT((genT(8,40,0,0) + off), t);
+        console.log(diff,t);
         note.innerText = `School hasn't started yet. ${diff.h}h ${diff.m}m ${diff.s}s left`;
       }
     }, 50);
