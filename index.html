@@ -7,14 +7,35 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        font-family: Arial;
       }
       #time{
+        font-size: 0;
+      }
+      #MMHH{
         font-size: 20vmin;
+      }
+      #SS-M{
+        display: inline-block;
+      }
+      #SS{
+        line-height: 8vmin;
+        font-size: 10vmin;
+      }
+      #M{
+        line-height: 8vmin;
+        font-size: 7vmin
       }
     </style>
   </head>
   <body>
-    <span id="time"></span>
+    <div id="time">
+      <span id="MMHH">00:00</span>
+      <div id="SS-M">
+        <span id="SS">00</span>
+        <br>
+        <span id="M">AM</span>
+      </div></div>
   </body>
   <script>
     var d;
@@ -26,9 +47,11 @@
       h = d.getHours();
       m = d.getMinutes();
       s = d.getSeconds();
+      meridiem = (h < 12) ? "AM":"PM";
       ms = Math.floor(d.getMilliseconds() * 10);
-      [h,m,s] = [h,m,s].map(x=>x.toString().padStart(2,"0"));
-      time.innerText = [h,m,s].join(":");
+      MMHH.innerText = ((h % 12) || 12).toString().padStart(2,"0") + ":" + m.toString().padStart(2,"0");
+      SS.innerText = s.toString().padStart(2,"0");
+      M.innerText = meridiem;
     }, 50);
   </script>
 </html>
