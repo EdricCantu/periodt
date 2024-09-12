@@ -1,4 +1,18 @@
 <html>
+  <head>
+    <style>
+      body{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #time{
+        font-size: 20vmin;
+      }
+    </style>
+  </head>
   <body>
     <span id="time"></span>
   </body>
@@ -12,6 +26,7 @@
       h = d.getHours();
       m = d.getMinutes();
       s = d.getSeconds();
+      ms = Math.floor(d.getMilliseconds() * 10);
       [h,m,s] = [h,m,s].map(x=>x.toString().padStart(2,"0"));
       time.innerText = [h,m,s].join(":");
     }, 50);
