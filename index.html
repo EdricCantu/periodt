@@ -179,7 +179,11 @@ compare(cmp, num){
   ;
 }
 function updateScreen(){
-  SS.innerText = prop.
+  const ms = Math.floor(prop.ms * 10);
+  const m = (prop.hr < 12) ? "AM":"PM";
+  MMHH.innerText = ((prop.hr % 12) || 12).toString().padStart(2,"0") + ":" + prop.mn.toString().padStart(2,"0");
+    SS.innerText = prop.sc.toString().padStart(2,"0");
+     M.innerText = meridiem;
   for( const state in [preCmp, ...preset.normal] ){
     if(compare(preset.normal[state].cmp, prop.time)){
       preCmp = state;
