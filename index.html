@@ -43,42 +43,167 @@
     <progress max="10000" value="0"></progress>
   </body>
   <script>
-    var d;
-    var h = 0;
-    var m = 0;
-    var s = 0;
-    t = 0;
-    off = -12000;
-    function genT(h, m, s, ms){
-      return (h*60*60*1000) + (m * 60*1000) + (s*1000) + ms;
+update()
+function update(){
+  updateProp(new Date());
+  updateScreen();
+  requestAnimationFrame(update);
+}
+preset = {
+  normal: {
+    in0: { cmp: [0, 31199_999], action(){
+      
+    }},
+    after0: { cmp: [31200000, 31204_999], action(){
+      
+    }},
+    in01: { cmp: [31205000, 31499_999], action(){
+      
+    }},
+    before1: { cmp: [31500000, 31504_999], action(){
+      
+    }},
+    in1: { cmp: [31505000, 34199_999], action(){
+      
+    }},
+    after1: { cmp: [34200000, 34204_999], action(){
+      
+    }},
+    in12: { cmp: [34205000, 34499_999], action(){
+      
+    }},
+    before2: { cmp: [34500000, 34504_999], action(){
+      
+    }},
+    in2: { cmp: [34505000, 37199_999], action(){
+      
+    }},
+    after2: { cmp: [37200000, 37204_999], action(){
+      
+    }},
+    in23: { cmp: [37205000, 37499_999], action(){
+      
+    }},
+    before3: { cmp: [37500000, 37504_999], action(){
+      
+    }},
+    in3: { cmp: [37505000, 40199_999], action(){
+      
+    }},
+    after3: { cmp: [40200000, 40204_999], action(){
+      
+    }},
+    in34: { cmp: [40205000, 40499_999], action(){
+      
+    }},
+    before4: { cmp: [40500000, 40504_999], action(){
+      
+    }},
+    in4: { cmp: [40505000, 43199_999], action(){
+      
+    }},
+    after4: { cmp: [43200000, 43204_999], action(){
+      
+    }},
+    in45: { cmp: [43205000, 43499_999], action(){
+      
+    }},
+    before5: { cmp: [43500000, 43504_999], action(){
+      
+    }},
+    in5: { cmp: [43505000, 46199_999], action(){
+      
+    }},
+    after5: { cmp: [46200000, 46204_999], action(){
+      
+    }},
+    in56: { cmp: [46205000, 46499_999], action(){
+      
+    }},
+    before6: { cmp: [46500000, 46504_999], action(){
+      
+    }},
+    in6: { cmp: [46505000, 49199_999], action(){
+      
+    }},
+    after6: { cmp: [49200000, 49204_999], action(){
+      
+    }},
+    in67: { cmp: [49205000, 49499_999], action(){
+      
+    }},
+    before7: { cmp: [49500000, 49504_999], action(){
+      
+    }},
+    in7: { cmp: [49505000, 52199_999], action(){
+      
+    }},
+    after7: { cmp: [52200000, 52204_999], action(){
+      
+    }},
+    in78: { cmp: [52205000, 52499_999], action(){
+      
+    }},
+    before8: { cmp: [52500000, 52504_999], action(){
+      
+    }},
+    in8: { cmp: [52505000, 55199_999], action(){
+      
+    }},
+    after8: { cmp: [55200000, 5520_4999], action(){
+      
+    }},
+    in89: { cmp: [55205000, 55499_999], action(){
+      
+    }},
+    before9: { cmp: [55500000, 55504_999], action(){
+      
+    }},
+    in9: { cmp: [55505000, 58199_999], action(){
+      
+    }},
+    after9: { cmp: [58200000, 58204_999], action(){
+      
+    }},
+    in90: { cmp: [58205000, 86399_999], action(){
+  
+    }}
+  }
+};
+preCmp = "before";
+compare(cmp, num){
+  return
+    num >= cmp[0]
+      &&
+    num <= cmp[1]
+  ;
+}
+function updateScreen(){
+  SS.innerText = prop.
+  for( const state in [preCmp, ...preset.normal] ){
+    if(compare(preset.normal[state].cmp, prop.time)){
+      preCmp = state;
+      return preset.normal[state].action();
     }
-    function diffT(t1, t2 = 0){//can also be used to get t parsed
-      var t = t1 - t2;
-      var T = t;
-      var h = Math.floor(t / (60*60*1000));
-      t = t % (60*60*1000);
-      var m = Math.floor(t / (60*1000));
-      t = t % (60*1000);
-      var s = Math.floor(t / 1000);
-      var ms = t % 1000;
-      return {t:T,h,m,s,ms};
-    }
-    setInterval(()=>{
-      d = new Date();
-      h = d.getHours();
-      m = d.getMinutes();
-      s = d.getSeconds();
-      ms = Math.floor(d.getMilliseconds() * 10);
-      t = genT(h,m,s,ms);
-      meridiem = (h < 12) ? "AM":"PM";
-      MMHH.innerText = ((h % 12) || 12).toString().padStart(2,"0") + ":" + m.toString().padStart(2,"0");
-      SS.innerText = s.toString().padStart(2,"0");
-      M.innerText = meridiem;
-      if(t < (genT(8,40,0,0) + off)){
-        debugger;
-        var diff = diffT((genT(8,40,0,0) + off), t);
-        note.innerText = `School hasn't started yet. ${diff.h}h ${diff.m}m ${diff.s}s left`;
-      }
-    }, 50);
+  }
+  return alert("Something went wrong! Are you quantum")
+}
+  //const hr = hrhr % 12 || 12;
+  //const m = (hrhr < 12) ? "a" : "p";
+const momo = [0, "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+function updateProp(date){
+  const yr = date.getYear();
+  const mo = date.getMonth();
+  prop.yr = 1900 + yr; //shortened prop.yr % 100
+  prop.mo = date.getMonth() + 1;
+  prop.dy = date.getDate();
+  prop.d = d[date.getDay()];
+  prop.hr = date.getHours(); //shortened (prop.hr % 12) || 12
+  prop.mn = date.getMinutes();
+  prop.sc = date.getSeconds();
+  prop.ms = date.getMilliseconds()
+  prop.time = (prop.hr * 60 * 60 * 1000) + (prop.mn * 60 * 1000) + (prop.sc * 1000) + prop.ms;
+}
   </script>
 </html>
