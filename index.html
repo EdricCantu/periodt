@@ -48,7 +48,6 @@
     d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 prop = {};
 preCmp = "in0";
-update()
 function update(){
   updateProp(new Date());
   updateScreen();
@@ -209,5 +208,6 @@ function updateProp(date){
   prop.ms = date.getMilliseconds();
   prop.time = (prop.hr * 60 * 60 * 1000) + (prop.mn * 60 * 1000) + (prop.sc * 1000) + prop.ms;
 }
+    update();
   </script>
 </html>
