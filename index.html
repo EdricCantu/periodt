@@ -47,6 +47,7 @@
  momo = [0, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 prop = {};
+preCmp = "in0";
 update()
 function update(){
   updateProp(new Date());
@@ -174,7 +175,6 @@ preset = {
     }}
   }
 };
-preCmp = "before";
 function compare(cmp, num){
   return
     num >= cmp[0]
