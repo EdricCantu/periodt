@@ -44,6 +44,8 @@
     <progress max="10000" value="0"></progress>
   </body>
   <script>
+const momo = [0, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 prop = {};
 update()
 function update(){
@@ -192,12 +194,8 @@ function updateScreen(){
       return preset.normal[state].action();
     }
   }
-  return alert("Something went wrong! Are you quantum")
+  return alert("Something went wrong! Are you quantum?")
 }
-  //const hr = hrhr % 12 || 12;
-  //const m = (hrhr < 12) ? "a" : "p";
-const momo = [0, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 function updateProp(date){
   const yr = date.getYear();
   const mo = date.getMonth();
@@ -208,7 +206,7 @@ function updateProp(date){
   prop.hr = date.getHours(); //shortened (prop.hr % 12) || 12
   prop.mn = date.getMinutes();
   prop.sc = date.getSeconds();
-  prop.ms = date.getMilliseconds()
+  prop.ms = date.getMilliseconds();
   prop.time = (prop.hr * 60 * 60 * 1000) + (prop.mn * 60 * 1000) + (prop.sc * 1000) + prop.ms;
 }
   </script>
