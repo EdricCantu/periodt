@@ -184,7 +184,7 @@ function updateScreen(){
   MMHH.innerText = ((prop.hr % 12) || 12).toString().padStart(2,"0") + ":" + prop.mn.toString().padStart(2,"0");
     SS.innerText = prop.sc.toString().padStart(2,"0");
      M.innerText = meridiem;
-  for( const state in [preCmp, ...preset.normal] ){
+  for( const state of [preCmp, ...Object.keys(preset.normal)] ){
     if(compare(preset.normal[state].cmp, prop.time)){
       preCmp = state;
       return preset.normal[state].action();
@@ -194,7 +194,7 @@ function updateScreen(){
 }
   //const hr = hrhr % 12 || 12;
   //const m = (hrhr < 12) ? "a" : "p";
-const momo = [0, "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const momo = [0, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 function updateProp(date){
   const yr = date.getYear();
