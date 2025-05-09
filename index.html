@@ -154,7 +154,7 @@ preset = {
     in8: { cmp: [52505000, 55199_999], action(){
       
     }},
-    after8: { cmp: [55200000, 5520_4999], action(){
+    after8: { cmp: [55200000, 55204_999], action(){
       
     }},
     in89: { cmp: [55205000, 55499_999], action(){
@@ -193,7 +193,7 @@ function updateScreen(){
       return preset.normal[state].action();
     }
   }
-  return alert("Something went wrong! Are you quantum?")
+  return alert("Something went wrong! Are you quantum? "+prop.time)
 }
 function updateProp(date){
   const yr = date.getYear();
