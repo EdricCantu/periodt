@@ -175,11 +175,11 @@ preset = {
   }
 };
 function compare(cmp, num){
-  return
+  return (
     num >= cmp[0]
       &&
-    num < cmp[1]
-  ;
+    num <  cmp[1]
+  ):
 }
 function updateScreen(){
   const ms = Math.floor(prop.ms * 10);
