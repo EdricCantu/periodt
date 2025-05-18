@@ -215,7 +215,7 @@ function updateProp(obj, date){
   const yr = date.getYear();
   const mo = date.getMonth();
   obj.yr = 1900 + yr; //shortened prop.yr % 100
-  obj = date.getMonth() + 1;
+  obj.mo = date.getMonth() + 1;
   obj.dy = date.getDate();
   obj.d = d[date.getDay()];
   obj.hr = date.getHours(); //shortened (prop.hr % 12) || 12
