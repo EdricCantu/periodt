@@ -49,19 +49,30 @@
 prop = {};
 preCmp = "in0";
 function update(){
-  updateProp(new Date());
+  updateProp(prop, new Date());
   updateScreen();
   requestAnimationFrame(update);
 }
 preset = {
   normal: {
-    in0: { cmp: [0, 31200_000], action(){
+    in0: { cmp: [0, 31200_000], action(abs, rel){
+      
+      note.innerText = "School hasn't started yet! " + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
+    }},
+    after0: { cmp: [31200_000, 31205_000], action(abs, rel){
       
     }},
-    after0: { cmp: [31200_000, 31205_000], action(){
-      
-    }},
-    in01: { cmp: [31205_000, 31500_000], action(){
+    in01: { cmp: [31205_000, 31500_000], action(aba){
       
     }},
     before1: { cmp: [31500_000, 31505_000], action(){
@@ -189,26 +200,29 @@ function updateScreen(){
      M.innerText = m;
   for( const state of [preCmp, ...Object.keys(preset.normal)] ){
     if(compare(preset.normal[state].cmp, prop.time)){
+      remainder = {};
+      updateProp(remainder, new Date(preset.normal[state].cmp[1] - prop.time));
+      
       preCmp = state;
-      return preset.normal[state].action();
+      return preset.normal[state].action(prop, remainder);
     }else{
       console.log(preset.normal[state]);
     }
   }
   return alert("Something went wrong! Are you quantum? "+prop.time)
 }
-function updateProp(date){
+function updateProp(obj, date){
   const yr = date.getYear();
   const mo = date.getMonth();
-  prop.yr = 1900 + yr; //shortened prop.yr % 100
-  prop.mo = date.getMonth() + 1;
-  prop.dy = date.getDate();
-  prop.d = d[date.getDay()];
-  prop.hr = date.getHours(); //shortened (prop.hr % 12) || 12
-  prop.mn = date.getMinutes();
-  prop.sc = date.getSeconds();
-  prop.ms = date.getMilliseconds();
-  prop.time = (prop.hr * 60 * 60 * 1000) + (prop.mn * 60 * 1000) + (prop.sc * 1000) + prop.ms;
+  obj.yr = 1900 + yr; //shortened prop.yr % 100
+  obj = date.getMonth() + 1;
+  obj.dy = date.getDate();
+  obj.d = d[date.getDay()];
+  obj.hr = date.getHours(); //shortened (prop.hr % 12) || 12
+  obj.mn = date.getMinutes();
+  obj.sc = date.getSeconds();
+  obj.ms = date.getMilliseconds();
+  obj.time = (obj.hr * 60 * 60 * 1000) + (obj.mn * 60 * 1000) + (obj.sc * 1000) + obj.ms;
 }
     update();
   </script>
