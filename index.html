@@ -48,6 +48,9 @@
     d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 prop = {};
 preCmp = "in0";
+tzOff = (new Date).getTimezoneOffset() * 60_000
+ //US people
+  + 3600_000
 function update(){
   updateProp(prop, new Date());
   updateScreen();
@@ -201,7 +204,12 @@ function updateScreen(){
   for( const state of [preCmp, ...Object.keys(preset.normal)] ){
     if(compare(preset.normal[state].cmp, prop.time)){
       remainder = {};
-      updateProp(remainder, new Date(preset.normal[state].cmp[1] - prop.time));
+      updateProp(remainder, 
+        new Date(
+          (preset.normal[state].cmp[1] - prop.time)
+          + tzOff
+        )
+      );
       
       preCmp = state;
       return preset.normal[state].action(prop, remainder);
