@@ -73,94 +73,180 @@ preset = {
       );
     }},
     after0: { cmp: [31200_000, 31205_000], action(abs, rel){
+      note.innerText = "🔔GET OUT!🔔";
+    }},
+    in01: { cmp: [31205_000, 31500_000], action(abs, rel){
+      note.innerText = " GET TO YOUR 1ST PERIOD!" + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
+    }},
+    before1: { cmp: [31500_000, 31505_000], action(abs, rel){
       
     }},
-    in01: { cmp: [31205_000, 31500_000], action(aba){
+    in1: { cmp: [31505_000, 34200_000], action(abs, rel){
       
     }},
-    before1: { cmp: [31500_000, 31505_000], action(){
+    after1: { cmp: [34200_000, 34205_000], action(abs, rel){
+      note.innerText = "🔔GET OUT!🔔";
+    }},
+    in12: { cmp: [34205_000, 34500_000], action(abs, rel){
+      note.innerText = " GET TO YOUR 2ND PERIOD!" + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
       
     }},
-    in1: { cmp: [31505_000, 34200_000], action(){
+    before2: { cmp: [34500_000, 34505_000], action(abs, rel){
       
     }},
-    after1: { cmp: [34200_000, 34205_000], action(){
+    in2: { cmp: [34505_000, 37200_000], action(abs, rel){
       
     }},
-    in12: { cmp: [34205_000, 34500_000], action(){
+    after2: { cmp: [37200_000, 37205_000], action(abs, rel){
+      note.innerText = "🔔GET OUT!🔔";
+    }},
+    in23: { cmp: [37205_000, 37500_000], action(abs, rel){
+      note.innerText = " GET TO YOUR 3RD PERIOD!" + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
       
     }},
-    before2: { cmp: [34500_000, 34505_000], action(){
+    before3: { cmp: [37500_000, 37505_000], action(abs, rel){
       
     }},
-    in2: { cmp: [34505_000, 37200_000], action(){
+    in3: { cmp: [37505_000, 40200_000], action(abs, rel){
       
     }},
-    after2: { cmp: [37200_000, 37205_000], action(){
+    after3: { cmp: [40200_000, 40205_000], action(abs, rel){
+      note.innerText = "🔔GET OUT!🔔";
+    }},
+    in34: { cmp: [40205_000, 40500_000], action(abs, rel){
+      note.innerText = " GET TO YOUR 4TH PERIOD!" + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
       
     }},
-    in23: { cmp: [37205_000, 37500_000], action(){
+    before4: { cmp: [40500_000, 40505_000], action(abs, rel){
       
     }},
-    before3: { cmp: [37500_000, 37505_000], action(){
+    in4: { cmp: [40505_000, 43200_000], action(abs, rel){
+      note.innerText = "4th period: " + (rel.mn+"m"+rel.sc+"s");
+    }},
+    after4: { cmp: [43200_000, 43205_000], action(abs, rel){
+      note.innerText = "🔔GET OUT!🔔";
+    }},
+    in45: { cmp: [43205_000, 43500_000], action(abs, rel){
+      note.innerText = " GET TO YOUR 5TH PERIOD!" + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
       
     }},
-    in3: { cmp: [37505_000, 40200_000], action(){
+    before5: { cmp: [43500_000, 43505_000], action(abs, rel){
       
     }},
-    after3: { cmp: [40200_000, 40205_000], action(){
+    in5: { cmp: [43505_000, 46200_000], action(abs, rel){
+      note.innerText = "5th period: ";
+    }},
+    after5: { cmp: [46200_000, 46205_000], action(abs, rel){
+      note.innerText = "🔔GET OUT!🔔";
+    }},
+    in56: { cmp: [46205_000, 46500_000], action(abs, rel){
+      note.innerText = " GET TO YOUR 6TH PERIOD!" + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
       
     }},
-    in34: { cmp: [40205_000, 40500_000], action(){
+    before6: { cmp: [46500_000, 46505_000], action(abs, rel){
       
     }},
-    before4: { cmp: [40500_000, 40505_000], action(){
+    in6: { cmp: [46505_000, 49200_000], action(abs, rel){
+      note.innerText = "6th period: ";
+    }},
+    after6: { cmp: [49200_000, 49205_000], action(abs, rel){
+      note.innerText = "🔔GET OUT!🔔";
+    }},
+    in67: { cmp: [49205_000, 49500_000], action(abs, rel){
+      note.innerText = " GET TO YOUR 7TH PERIOD!" + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
       
     }},
-    in4: { cmp: [40505_000, 43200_000], action(){
+    before7: { cmp: [49500_000, 49505_000], action(abs, rel){
       
     }},
-    after4: { cmp: [43200_000, 43205_000], action(){
+    in7: { cmp: [49505_000, 52200_000], action(abs, rel){
       
     }},
-    in45: { cmp: [43205_000, 43500_000], action(){
-      
+    after7: { cmp: [52200_000, 52205_000], action(abs, rel){
+      note.innerText = "🔔GET OUT!🔔";
     }},
-    before5: { cmp: [43500_000, 43505_000], action(){
-      
-    }},
-    in5: { cmp: [43505_000, 46200_000], action(){
-      
-    }},
-    after5: { cmp: [46200_000, 46205_000], action(){
-      
-    }},
-    in56: { cmp: [46205_000, 46500_000], action(){
-      
-    }},
-    before6: { cmp: [46500_000, 46505_000], action(){
-      
-    }},
-    in6: { cmp: [46505_000, 49200_000], action(){
-      
-    }},
-    after6: { cmp: [49200_000, 49205_000], action(){
-      
-    }},
-    in67: { cmp: [49205_000, 49500_000], action(){
-      
-    }},
-    before7: { cmp: [49500_000, 49505_000], action(){
-      
-    }},
-    in7: { cmp: [49505_000, 52200_000], action(){
-      
-    }},
-    after7: { cmp: [52200_000, 52205_000], action(){
-      
-    }},
-    in78: { cmp: [52205_000, 52500_000], action(){
-      
+    in78: { cmp: [52205_000, 52500_000], action(abs, rel){
+      note.innerText = " GET TO YOUR 8TH PERIOD!" + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
     }},
     before8: { cmp: [52500_000, 52505_000], action(){
       
@@ -169,9 +255,20 @@ preset = {
       
     }},
     after8: { cmp: [55200_000, 55205_000], action(){
-      
+      note.innerText = "🔔GET OUT!🔔";
     }},
     in89: { cmp: [55205_000, 55500_000], action(){
+      note.innerText = " GET TO CLASS!" + (
+        (rel.time >= 3600_000)?
+          (rel.hr+"h"+rel.mn+"m")
+            :
+          (
+            (rel.time >= 60_000)?
+              (rel.mn+"m"+rel.sc+"s")
+                :
+              (rel.sc+"s")
+          )
+      );
       
     }},
     before9: { cmp: [55500_000, 55505_000], action(){
@@ -181,10 +278,10 @@ preset = {
       
     }},
     after9: { cmp: [58200_000, 58205_000], action(){
-      
+      note.innerText = "🔔GET OUT OF SCHOOL!🔔";
     }},
     in90: { cmp: [58205_000, 86400_000], action(){
-  
+      note.innerText = "It's Over."
     }}
   }
 };
