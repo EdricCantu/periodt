@@ -302,7 +302,7 @@ preset = {
       note.innerText = "🔔9TH PERIOD BEGINS!!🔔";
       prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
-    in9: { cmp: [55505_000, 58200_000], action(){
+    in9: { cmp: [55505_000, 58200_000], action(abs, rel){
       note.innerText = "9th period:\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
