@@ -74,7 +74,7 @@ preset = {
       note.innerText = "🔔GET OUT!🔔";
     }},
     in01: { cmp: [31205_000, 31500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 1ST PERIOD!" + (
+      note.innerText = " GET TO YOUR 1ST PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
             :
@@ -90,14 +90,14 @@ preset = {
       
     }},
     in1: { cmp: [31505_000, 34200_000], action(abs, rel){
-      note.innerText = "1st period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "1st period\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after1: { cmp: [34200_000, 34205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
     }},
     in12: { cmp: [34205_000, 34500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 2ND PERIOD!" + (
+      note.innerText = " GET TO YOUR 2ND PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
             :
@@ -114,14 +114,14 @@ preset = {
       
     }},
     in2: { cmp: [34505_000, 37200_000], action(abs, rel){
-      note.innerText = "2nd period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "2nd period\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after2: { cmp: [37200_000, 37205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
     }},
     in23: { cmp: [37205_000, 37500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 3RD PERIOD!" + (
+      note.innerText = " GET TO YOUR 3RD PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
             :
@@ -138,14 +138,14 @@ preset = {
       
     }},
     in3: { cmp: [37505_000, 40200_000], action(abs, rel){
-      note.innerText = "3rd period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "3rd period\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after3: { cmp: [40200_000, 40205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
     }},
     in34: { cmp: [40205_000, 40500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 4TH PERIOD!" + (
+      note.innerText = " GET TO YOUR 4TH PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
             :
@@ -162,14 +162,14 @@ preset = {
       
     }},
     in4: { cmp: [40505_000, 43200_000], action(abs, rel){
-      note.innerText = "4th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "4th period\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after4: { cmp: [43200_000, 43205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
     }},
     in45: { cmp: [43205_000, 43500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 5TH PERIOD!" + (
+      note.innerText = " GET TO YOUR 5TH PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
             :
@@ -186,14 +186,14 @@ preset = {
       
     }},
     in5: { cmp: [43505_000, 46200_000], action(abs, rel){
-      note.innerText = "5th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "5th period\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after5: { cmp: [46200_000, 46205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
     }},
     in56: { cmp: [46205_000, 46500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 6TH PERIOD!" + (
+      note.innerText = " GET TO YOUR 6TH PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
             :
@@ -210,14 +210,14 @@ preset = {
       
     }},
     in6: { cmp: [46505_000, 49200_000], action(abs, rel){
-      note.innerText = "6th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "6th period\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after6: { cmp: [49200_000, 49205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
     }},
     in67: { cmp: [49205_000, 49500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 7TH PERIOD!" + (
+      note.innerText = " GET TO YOUR 7TH PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
             :
@@ -234,14 +234,14 @@ preset = {
       
     }},
     in7: { cmp: [49505_000, 52200_000], action(abs, rel){
-      note.innerText = "7th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "7th period\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = (2700_000 - rel.time) / 2700_000
     }},
     after7: { cmp: [52200_000, 52205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
     }},
     in78: { cmp: [52205_000, 52500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 8TH PERIOD!" + (
+      note.innerText = " GET TO YOUR 8TH PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
             :
@@ -254,17 +254,17 @@ preset = {
       );
     }},
     before8: { cmp: [52500_000, 52505_000], action(){
-      note.innerText = "8th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+
     }},
     in8: { cmp: [52505_000, 55200_000], action(){
-      note.innerText = "8th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "8th period\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after8: { cmp: [55200_000, 55205_000], action(){
       note.innerText = "🔔GET OUT!🔔";
     }},
     in89: { cmp: [55205_000, 55500_000], action(){
-      note.innerText = " GET TO CLASS!" + (
+      note.innerText = " GET TO YOUR 9TH PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
             :
@@ -281,7 +281,7 @@ preset = {
       
     }},
     in9: { cmp: [55505_000, 58200_000], action(){
-      note.innerText = "9th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "9th period:\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after9: { cmp: [58200_000, 58205_000], action(){
