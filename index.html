@@ -9,6 +9,7 @@
         align-items: center;
         font-family: Arial;
         flex-direction: column;
+        text-align: center;
       }
       #time{
         font-size: 0;
@@ -72,7 +73,8 @@ preset = {
       );
     }},
     after0: { cmp: [31200_000, 31205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT!🔔";
+      note.innerText = "🔔GET TO CLASS!🔔";
+      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
     }},
     in01: { cmp: [31205_000, 31500_000], action(abs, rel){
       note.innerText = " GET TO YOUR 1ST PERIOD!\n" + (
@@ -85,17 +87,20 @@ preset = {
                 :
               (rel.sc+"s")
           )
-      );
+      ) + "\n UNTIL YOU'RE LATE!!";
+      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
     }},
     before1: { cmp: [31500_000, 31505_000], action(abs, rel){
-      
+      note.innerText = "🔔1ST PERIOD BEGINS!!🔔";
+      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
     in1: { cmp: [31505_000, 34200_000], action(abs, rel){
-      note.innerText = "1st period\n" + (((2700_000 - rel.time) / 2700_000) * 100)+"% elapsed\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "1st period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
     after1: { cmp: [34200_000, 34205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
+      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
     }},
     in12: { cmp: [34205_000, 34500_000], action(abs, rel){
       note.innerText = " GET TO YOUR 2ND PERIOD!\n" + (
@@ -108,18 +113,20 @@ preset = {
                 :
               (rel.sc+"s")
           )
-      );
-      
+      ) + "\n UNTIL YOU'RE LATE!!";
+      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
     }},
     before2: { cmp: [34500_000, 34505_000], action(abs, rel){
-      
+      note.innerText = "🔔2ND PERIOD BEGINS!!🔔";
+      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
     in2: { cmp: [34505_000, 37200_000], action(abs, rel){
-      note.innerText = "2nd period\n" + (((2700_000 - rel.time) / 2700_000) * 100)+"% elapsed\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "2nd period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
     after2: { cmp: [37200_000, 37205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
+      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
     }},
     in23: { cmp: [37205_000, 37500_000], action(abs, rel){
       note.innerText = " GET TO YOUR 3RD PERIOD!\n" + (
@@ -132,18 +139,20 @@ preset = {
                 :
               (rel.sc+"s")
           )
-      );
-      
+      ) + "\n UNTIL YOU'RE LATE!!";
+      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
     }},
     before3: { cmp: [37500_000, 37505_000], action(abs, rel){
-      
+      note.innerText = "🔔3RD PERIOD BEGINS!!🔔";
+      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
     in3: { cmp: [37505_000, 40200_000], action(abs, rel){
-      note.innerText = "3rd period\n" + (((2700_000 - rel.time) / 2700_000) * 100)+"% elapsed\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "3rd period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
     after3: { cmp: [40200_000, 40205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
+      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
     }},
     in34: { cmp: [40205_000, 40500_000], action(abs, rel){
       note.innerText = " GET TO YOUR 4TH PERIOD!\n" + (
@@ -156,18 +165,20 @@ preset = {
                 :
               (rel.sc+"s")
           )
-      );
-      
+      ) + "\n UNTIL YOU'RE LATE!!";
+      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
     }},
     before4: { cmp: [40500_000, 40505_000], action(abs, rel){
-      
+      note.innerText = "🔔4TH PERIOD BEGINS!!🔔";
+      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
     in4: { cmp: [40505_000, 43200_000], action(abs, rel){
-      note.innerText = "4th period\n" + (((2700_000 - rel.time) / 2700_000) * 100)+"% elapsed\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "4th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
     after4: { cmp: [43200_000, 43205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
+      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
     }},
     in45: { cmp: [43205_000, 43500_000], action(abs, rel){
       note.innerText = " GET TO YOUR 5TH PERIOD!\n" + (
@@ -180,18 +191,20 @@ preset = {
                 :
               (rel.sc+"s")
           )
-      );
-      
+      ) + "\n UNTIL YOU'RE LATE!!";
+      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
     }},
     before5: { cmp: [43500_000, 43505_000], action(abs, rel){
-      
+      note.innerText = "🔔5TH PERIOD BEGINS!!🔔";
+      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
     in5: { cmp: [43505_000, 46200_000], action(abs, rel){
-      note.innerText = "5th period\n" + (((2700_000 - rel.time) / 2700_000) * 100)+"% elapsed\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "5th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
     after5: { cmp: [46200_000, 46205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
+      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
     }},
     in56: { cmp: [46205_000, 46500_000], action(abs, rel){
       note.innerText = " GET TO YOUR 6TH PERIOD!\n" + (
@@ -204,18 +217,20 @@ preset = {
                 :
               (rel.sc+"s")
           )
-      );
-      
+      ) + "\n UNTIL YOU'RE LATE!!";
+      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
     }},
     before6: { cmp: [46500_000, 46505_000], action(abs, rel){
-      
+      note.innerText = "🔔6TH PERIOD BEGINS!!🔔";
+      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
     in6: { cmp: [46505_000, 49200_000], action(abs, rel){
-      note.innerText = "6th period\n" + (((2700_000 - rel.time) / 2700_000) * 100)+"% elapsed\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "6th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
     after6: { cmp: [49200_000, 49205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
+      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
     }},
     in67: { cmp: [49205_000, 49500_000], action(abs, rel){
       note.innerText = " GET TO YOUR 7TH PERIOD!\n" + (
@@ -228,18 +243,20 @@ preset = {
                 :
               (rel.sc+"s")
           )
-      );
-      
+      ) + "\n UNTIL YOU'RE LATE!!";
+      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
     }},
     before7: { cmp: [49500_000, 49505_000], action(abs, rel){
-      
+      note.innerText = "🔔7TH PERIOD BEGINS!!🔔";
+      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
     in7: { cmp: [49505_000, 52200_000], action(abs, rel){
-      note.innerText = "7th period\n" + (((2700_000 - rel.time) / 2700_000) * 100)+"% elapsed\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "7th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
     after7: { cmp: [52200_000, 52205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
+      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
     }},
     in78: { cmp: [52205_000, 52500_000], action(abs, rel){
       note.innerText = " GET TO YOUR 8TH PERIOD!\n" + (
@@ -252,19 +269,22 @@ preset = {
                 :
               (rel.sc+"s")
           )
-      );
+      ) + "\n UNTIL YOU'RE LATE!!";
+      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
     }},
-    before8: { cmp: [52500_000, 52505_000], action(){
-
+    before8: { cmp: [52500_000, 52505_000], action(abs, rel){
+      note.innerText = "🔔8TH PERIOD BEGINS!!🔔";
+      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
-    in8: { cmp: [52505_000, 55200_000], action(){
-      note.innerText = "8th period\n" + (((2700_000 - rel.time) / 2700_000) * 100)+"% elapsed\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
+    in8: { cmp: [52505_000, 55200_000], action(abs, rel){
+      note.innerText = "8th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
-    after8: { cmp: [55200_000, 55205_000], action(){
+    after8: { cmp: [55200_000, 55205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
+      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
     }},
-    in89: { cmp: [55205_000, 55500_000], action(){
+    in89: { cmp: [55205_000, 55500_000], action(abs, rel){
       note.innerText = " GET TO YOUR 9TH PERIOD!\n" + (
         (rel.time >= 3600_000)?
           (rel.hr+"h"+rel.mn+"m")
@@ -275,20 +295,22 @@ preset = {
                 :
               (rel.sc+"s")
           )
-      );
-      
+      ) + "\n UNTIL YOU'RE LATE!!";
+      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
     }},
-    before9: { cmp: [55500_000, 55505_000], action(){
-      
+    before9: { cmp: [55500_000, 55505_000], action(abs, rel){
+      note.innerText = "🔔9TH PERIOD BEGINS!!🔔";
+      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
     }},
     in9: { cmp: [55505_000, 58200_000], action(){
-      note.innerText = "9th period:\n" + (((2700_000 - rel.time) / 2700_000) * 100)+"% elapsed\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
+      note.innerText = "9th period:\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
       prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
     }},
-    after9: { cmp: [58200_000, 58205_000], action(){
+    after9: { cmp: [58200_000, 58205_000], action(abs, rel){
       note.innerText = "🔔GET OUT OF SCHOOL!🔔";
+      prog.value = 0;
     }},
-    in90: { cmp: [58205_000, 86400_000], action(){
+    in90: { cmp: [58205_000, 86400_000], action(abs, rel){
       note.innerText = "It's Over."
     }}
   }
