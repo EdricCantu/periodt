@@ -38,7 +38,7 @@
         <span id="M">AM</span>
       </div>
     </div>
-    <progress max="10000" value="0"></progress>
+    <progress max="1" value="0" id="prog"></progress>
     <span id="note" style="display: block;"></span>
   </body>
   <script>
@@ -90,7 +90,8 @@ preset = {
       
     }},
     in1: { cmp: [31505_000, 34200_000], action(abs, rel){
-      
+      note.innerText = "1st period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after1: { cmp: [34200_000, 34205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
@@ -113,7 +114,8 @@ preset = {
       
     }},
     in2: { cmp: [34505_000, 37200_000], action(abs, rel){
-      
+      note.innerText = "2nd period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after2: { cmp: [37200_000, 37205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
@@ -136,7 +138,8 @@ preset = {
       
     }},
     in3: { cmp: [37505_000, 40200_000], action(abs, rel){
-      
+      note.innerText = "3rd period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after3: { cmp: [40200_000, 40205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
@@ -159,7 +162,8 @@ preset = {
       
     }},
     in4: { cmp: [40505_000, 43200_000], action(abs, rel){
-      note.innerText = "4th period: " + (rel.mn+"m"+rel.sc+"s");
+      note.innerText = "4th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after4: { cmp: [43200_000, 43205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
@@ -182,7 +186,8 @@ preset = {
       
     }},
     in5: { cmp: [43505_000, 46200_000], action(abs, rel){
-      note.innerText = "5th period: ";
+      note.innerText = "5th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after5: { cmp: [46200_000, 46205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
@@ -205,7 +210,8 @@ preset = {
       
     }},
     in6: { cmp: [46505_000, 49200_000], action(abs, rel){
-      note.innerText = "6th period: ";
+      note.innerText = "6th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after6: { cmp: [49200_000, 49205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
@@ -228,7 +234,8 @@ preset = {
       
     }},
     in7: { cmp: [49505_000, 52200_000], action(abs, rel){
-      
+      note.innerText = "7th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      prog.value = (2700_000 - rel.time) / 2700_000
     }},
     after7: { cmp: [52200_000, 52205_000], action(abs, rel){
       note.innerText = "🔔GET OUT!🔔";
@@ -247,10 +254,11 @@ preset = {
       );
     }},
     before8: { cmp: [52500_000, 52505_000], action(){
-      
+      note.innerText = "8th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
     }},
     in8: { cmp: [52505_000, 55200_000], action(){
-      
+      note.innerText = "8th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after8: { cmp: [55200_000, 55205_000], action(){
       note.innerText = "🔔GET OUT!🔔";
@@ -273,7 +281,8 @@ preset = {
       
     }},
     in9: { cmp: [55505_000, 58200_000], action(){
-      
+      note.innerText = "9th period: " + (rel.mn+"m"+rel.sc+"s") + " left...";
+      prog.value = (2700_000 - rel.time) / 2700_000;
     }},
     after9: { cmp: [58200_000, 58205_000], action(){
       note.innerText = "🔔GET OUT OF SCHOOL!🔔";
