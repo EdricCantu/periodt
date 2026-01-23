@@ -1,364 +1,230 @@
+<!DOCTYPE html> 
 <html>
-  <head>
-    <style>
-      body{
-        height: 100%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: Arial;
-        flex-direction: column;
-        text-align: center;
-      }
-      #time{
-        font-size: 0;
-      }
-      #MMHH{
-        font-size: 20vmin;
-      }
-      #SS-M{
-        display: inline-block;
-      }
-      #SS{
-        line-height: 8vmin;
-        font-size: 10vmin;
-      }
-      #M{
-        line-height: 8vmin;
-        font-size: 7vmin
-      }
-      #prog{ width: 60vmin; height: 5vmin;}
-    </style>
-  </head>
+  <head></head>
   <body>
-    <div id="time">
-      <span id="MMHH">00:00</span>
-      <div id="SS-M">
-        <span id="SS">00</span>
-        <br>
-        <span id="M">AM</span>
-      </div>
-    </div>
-    <progress max="1000000" value="0" id="prog"></progress>
-    <span id="note" style="display: block;"></span>
+    <canvas id="can" width="800" height="550" style="border: 1px solid black"></canvas>
   </body>
+  <!--systoff --- 
+    (tddisplay is offset by <systoff>, when using <reference> as a reference)
+      if tddisplay more ahead, put number closer to positive infinity. (more ahead, more positive)
+      if reference more ahead, put number closer to negative infinity. (more behind, more negative)
+    -->
+  <!--offset ---
+    (bell clock is offset by <offset>, when using <reference> as a reference) 
+      the offsets of the times the bell actually rings, compared to the times its supposed to ring.
+      negative means first bell rings sometime before 8:40
+      positive means first bell rings sometime after 8:40
+    -->
   <script>
- momo = [0, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-prop = {};
-preCmp = "in0";
-tzOff = (new Date).getTimezoneOffset() * 60_000
- //US people
-  + 3600_000
-function update(){
-  updateProp(prop, new Date());
-  updateScreen();
-  requestAnimationFrame(update);
-}
-preset = {
-  normal: {
-    in0: { cmp: [0, 31200_000], action(abs, rel){
-      
-      note.innerText = "School hasn't started yet! " + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      );
-    }},
-    after0: { cmp: [31200_000, 31205_000], action(abs, rel){
-      note.innerText = "🔔GET TO CLASS!🔔";
-      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
-    }},
-    in01: { cmp: [31205_000, 31500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 1ST PERIOD!\n" + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      ) + "\n UNTIL YOU'RE LATE!!";
-      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
-    }},
-    before1: { cmp: [31500_000, 31505_000], action(abs, rel){
-      note.innerText = "🔔1ST PERIOD BEGINS!!🔔";
-      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
-    }},
-    in1: { cmp: [31505_000, 34200_000], action(abs, rel){
-      note.innerText = "1st period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
-      prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
-    }},
-    after1: { cmp: [34200_000, 34205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT!🔔";
-      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
-    }},
-    in12: { cmp: [34205_000, 34500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 2ND PERIOD!\n" + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      ) + "\n UNTIL YOU'RE LATE!!";
-      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
-    }},
-    before2: { cmp: [34500_000, 34505_000], action(abs, rel){
-      note.innerText = "🔔2ND PERIOD BEGINS!!🔔";
-      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
-    }},
-    in2: { cmp: [34505_000, 37200_000], action(abs, rel){
-      note.innerText = "2nd period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
-      prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
-    }},
-    after2: { cmp: [37200_000, 37205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT!🔔";
-      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
-    }},
-    in23: { cmp: [37205_000, 37500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 3RD PERIOD!\n" + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      ) + "\n UNTIL YOU'RE LATE!!";
-      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
-    }},
-    before3: { cmp: [37500_000, 37505_000], action(abs, rel){
-      note.innerText = "🔔3RD PERIOD BEGINS!!🔔";
-      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
-    }},
-    in3: { cmp: [37505_000, 40200_000], action(abs, rel){
-      note.innerText = "3rd period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
-      prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
-    }},
-    after3: { cmp: [40200_000, 40205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT!🔔";
-      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
-    }},
-    in34: { cmp: [40205_000, 40500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 4TH PERIOD!\n" + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      ) + "\n UNTIL YOU'RE LATE!!";
-      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
-    }},
-    before4: { cmp: [40500_000, 40505_000], action(abs, rel){
-      note.innerText = "🔔4TH PERIOD BEGINS!!🔔";
-      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
-    }},
-    in4: { cmp: [40505_000, 43200_000], action(abs, rel){
-      note.innerText = "4th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
-      prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
-    }},
-    after4: { cmp: [43200_000, 43205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT!🔔";
-      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
-    }},
-    in45: { cmp: [43205_000, 43500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 5TH PERIOD!\n" + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      ) + "\n UNTIL YOU'RE LATE!!";
-      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
-    }},
-    before5: { cmp: [43500_000, 43505_000], action(abs, rel){
-      note.innerText = "🔔5TH PERIOD BEGINS!!🔔";
-      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
-    }},
-    in5: { cmp: [43505_000, 46200_000], action(abs, rel){
-      note.innerText = "5th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
-      prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
-    }},
-    after5: { cmp: [46200_000, 46205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT!🔔";
-      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
-    }},
-    in56: { cmp: [46205_000, 46500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 6TH PERIOD!\n" + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      ) + "\n UNTIL YOU'RE LATE!!";
-      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
-    }},
-    before6: { cmp: [46500_000, 46505_000], action(abs, rel){
-      note.innerText = "🔔6TH PERIOD BEGINS!!🔔";
-      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
-    }},
-    in6: { cmp: [46505_000, 49200_000], action(abs, rel){
-      note.innerText = "6th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
-      prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
-    }},
-    after6: { cmp: [49200_000, 49205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT!🔔";
-      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
-    }},
-    in67: { cmp: [49205_000, 49500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 7TH PERIOD!\n" + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      ) + "\n UNTIL YOU'RE LATE!!";
-      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
-    }},
-    before7: { cmp: [49500_000, 49505_000], action(abs, rel){
-      note.innerText = "🔔7TH PERIOD BEGINS!!🔔";
-      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
-    }},
-    in7: { cmp: [49505_000, 52200_000], action(abs, rel){
-      note.innerText = "7th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
-      prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
-    }},
-    after7: { cmp: [52200_000, 52205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT!🔔";
-      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
-    }},
-    in78: { cmp: [52205_000, 52500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 8TH PERIOD!\n" + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      ) + "\n UNTIL YOU'RE LATE!!";
-      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
-    }},
-    before8: { cmp: [52500_000, 52505_000], action(abs, rel){
-      note.innerText = "🔔8TH PERIOD BEGINS!!🔔";
-      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
-    }},
-    in8: { cmp: [52505_000, 55200_000], action(abs, rel){
-      note.innerText = "8th period\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
-      prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
-    }},
-    after8: { cmp: [55200_000, 55205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT!🔔";
-      prog.value = ((300_000 - (rel.time + 295_000)) / 300_000) * 1000000;
-    }},
-    in89: { cmp: [55205_000, 55500_000], action(abs, rel){
-      note.innerText = " GET TO YOUR 9TH PERIOD!\n" + (
-        (rel.time >= 3600_000)?
-          (rel.hr+"h"+rel.mn+"m")
-            :
-          (
-            (rel.time >= 60_000)?
-              (rel.mn+"m"+rel.sc+"s")
-                :
-              (rel.sc+"s")
-          )
-      ) + "\n UNTIL YOU'RE LATE!!";
-      prog.value = ((300_000 - rel.time) / 300_000) * 1000000;
-    }},
-    before9: { cmp: [55500_000, 55505_000], action(abs, rel){
-      note.innerText = "🔔9TH PERIOD BEGINS!!🔔";
-      prog.value = ((2700_000 - ((rel.time)+2695_000)) / 2700_000) * 1000000;
-    }},
-    in9: { cmp: [55505_000, 58200_000], action(abs, rel){
-      note.innerText = "9th period:\n" + (((2700_000 - rel.time) / 2700_000) * 100).toFixed(2) + "% through!\n" + (rel.mn+"m"+rel.sc+"s") + " left...";
-      prog.value = ((2700_000 - rel.time) / 2700_000) * 1000000;
-    }},
-    after9: { cmp: [58200_000, 58205_000], action(abs, rel){
-      note.innerText = "🔔GET OUT OF SCHOOL!🔔";
-      prog.value = 0;
-    }},
-    in90: { cmp: [58205_000, 86400_000], action(abs, rel){
-      note.innerText = "It's Over."
-    }}
-  }
-};
-function compare(cmp, num){
-  return (
-    num >= cmp[0]
-      &&
-    num <  cmp[1]
-  );
-}
-function updateScreen(){
-  const ms = Math.floor(prop.ms * 10);
-  const m = (prop.hr < 12) ? "AM" : "PM";
-  MMHH.innerText = ((prop.hr % 12) || 12).toString().padStart(2,"0") + ":" + prop.mn.toString().padStart(2,"0");
-    SS.innerText = prop.sc.toString().padStart(2,"0");
-     M.innerText = m;
-  for( const state of [preCmp, ...Object.keys(preset.normal)] ){
-    if(compare(preset.normal[state].cmp, prop.time)){
-      remainder = {};
-      updateProp(remainder, 
-        new Date(
-          (preset.normal[state].cmp[1] - prop.time)
-          + tzOff
-        )
-      );
-      
-      preCmp = state;
-      return preset.normal[state].action(prop, remainder);
-    }else{
-      console.log(preset.normal[state]);
+    const params = new URLSearchParams(window.location.search);
+    const systoff = parseInt(params.get("systoff") || "0");
+
+    function nowDate() {
+      return new Date(Date.now() - systoff);
     }
-  }
-  return alert("Something went wrong! Are you quantum? "+prop.time)
-}
-function updateProp(obj, date){
-  const yr = date.getYear();
-  const mo = date.getMonth();
-  obj.yr = 1900 + yr; //shortened prop.yr % 100
-  obj.mo = date.getMonth() + 1;
-  obj.dy = date.getDate();
-  obj.d = d[date.getDay()];
-  obj.hr = date.getHours(); //shortened (prop.hr % 12) || 12
-  obj.mn = date.getMinutes();
-  obj.sc = date.getSeconds();
-  obj.ms = date.getMilliseconds();
-  obj.time = (obj.hr * 60 * 60 * 1000) + (obj.mn * 60 * 1000) + (obj.sc * 1000) + obj.ms;
-}
-    update();
+    function formatRemaining(ms) {//formatting, and use so that 1 second means 1 second or less. when zero, it immediately flashes.
+      var totalSeconds = Math.ceil(ms / 1000);
+      if (totalSeconds < 1) totalSeconds = 1;
+
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return minutes+":"+(seconds.toString().padStart(2,"0"));
+    }
+
+    function splitText(text, splitX, leftColor, rightColor){
+      ctx.save();
+
+      ctx.font = "60px Arial";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+
+      // Total width of the text
+      const w = ctx.measureText(text).width;
+
+      // Left edge of centered text at x = 400
+      const startX = 400 - w / 2;
+      const y = 462.5;
+
+      // Clamp splitX so it doesn't do weird things
+      splitX = Math.max(0, Math.min(800, splitX));
+
+      // How much of the text is left of the split line
+      const leftWidth = Math.max(0, Math.min(w, splitX - startX));
+
+      // Draw left color
+      if (leftWidth > 0){
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(startX, y - 40, leftWidth, 80); // clip to left section
+        ctx.clip();
+        ctx.fillStyle = leftColor;
+        ctx.fillText(text, startX, y);
+        ctx.restore();
+      }
+      if (leftWidth < w){
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(startX + leftWidth, y - 40, w - leftWidth, 80); // clip to right section
+        ctx.clip();
+        ctx.fillStyle = rightColor;
+        ctx.fillText(text, startX, y);
+        ctx.restore();
+      }
+
+      ctx.restore();
+    }
+
+    ctx = can.getContext("2d");
+    months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    //time
+    h24 = false;
+
+    offset = -68500;
+    t = 0;
+    times = [
+      "00:00",
+      "08:40",
+      "08:45",
+      "09:30",
+      "09:35",
+      "10:20",
+      "10:25",
+      "11:10",
+      "11:15",
+      "12:00",
+      "12:05",
+      "12:50",
+      "12:55",
+      "13:40",
+      "13:45",
+      "14:30",
+      "14:35",
+      "15:20",
+      "15:25",
+      "16:10",
+    ];
+
+    for(const i in times){
+      times[i] = times[i].split(":").map(num=>parseInt(num));
+      times[i] = (times[i][0] * 3600 + times[i][1] * 60) * 1000 + offset;
+    }
+    function draw(){
+      ctx.fillStyle = "white";
+      ctx.fillRect(0,0,800,500);
+      ctx.fillStyle = "black";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.font = "250px monospace";
+      date = nowDate();
+      th = (date.getHours() % (h24 ? 24 : 12));
+      if(!(h24 || th)) th = 12
+      th = th.toString().padStart(2,0);
+      t2 = (date.getHours() > 11)?"PM":"AM";
+      tm = date.getMinutes();
+      tm = tm.toString().padStart(2,0);
+      ts = date.getSeconds()
+      ts = ts.toString().padStart(2,0);
+      tl = date.getMilliseconds();//little
+      dm = date.getMonth() + 1;
+      dm = dm.toString().padStart(2,0);
+      dd = date.getDate();
+      dd = dd.toString().padStart(2,0);
+      dy = date.getFullYear().toString().substr(2);
+      wc = ctx.measureText(tm).width / 2;
+      ctx.fillText(th, 0, 120);
+      if(tl < 500) ctx.fillText(":", wc*1.8, 100);
+      ctx.fillText(tm, wc*2.6, 120);
+      ctx.font = "75px monospace";
+      ctx.fillText(ts, 695, 60)
+      ctx.fillText(h24?"":t2, 695, 170);
+      ctx.font = "150px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(`${dm}/${dd}/${dy}`,400,275);
+      ctx.font = "90px Arial";
+      ctx.fillText(months[date.getMonth()], 800*(1/6), 375);
+      ctx.fillText(days[date.getDay()], 800*(2/3), 375);
+      
+      mc = ctx.measureText(months[date.getMonth()]).width / 2;
+      dc = ctx.measureText(days[date.getDay()]).width / 2;
+      mc = 800*(1/6) + mc;
+      dc = 800*(2/3) - dc;
+      (mc + dc) / 2;
+      ctx.fillText("🞄", (mc + dc) / 2, 375);
+      if(h24){//make milliseconds pie
+        
+      }
+      if(drawPeriods) drawPeriods(date);
+
+      requestAnimationFrame(draw);
+    }
+    draw()
+    
+    function drawPeriods(date){
+      pcol = 0
+        //      f00   f80    ff0   0f0  080  00f   0ff  80f     f0f
+        //      red orange yellow lime green blue cyan purple magenta
+        //black                                                       white
+      colors   = ([0,"f00","f80","ff0","0f0","080","00f","0ff","80f","f0f"])
+      uncolors =  [0,"fff","fff","000","000","fff","fff","000","fff","000"]
+      time = date.getHours() * 3600000 + date.getMinutes() * 60000 + date.getSeconds() * 1000 + date.getMilliseconds();
+      if(time > times[t+1]) t++;
+
+      elapsed = ((time - times[t])/(times[t+1] - times[t])) * 800;
+      percent = elapsed / 800
+      if(!t){
+        fillStyle = "black";
+        if(time % 1000 > 500) ctx.fillRect(0,425,800,75);
+        if(times[1] - time < 45*60*1000){
+          ctx.font = "60px Arial";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = (time % 1000 > 500)? "white" : "black";
+          us = times[1] - time;//until school
+          ctx.fillText( formatRemaining(us)+` until school!`, 400, 462.5);
+        }
+      }else if(t%2){//between periods
+        if(percent *5*60 < 5){ //if bell
+          ctx.fillStyle = "#"+colors.slice((t/2)-0.5, (t/2)+1.5)[0 + (Math.floor(percent*5*60 * 4) % 2)]
+          ctx.fillRect(0,425,elapsed,75);
+          ctx.fillStyle = "#"+colors.slice((t/2)-0.5, (t/2)+1.5)[1 - (Math.floor(percent*5*60 * 4) % 2)]
+          ctx.fillRect(elapsed,425,800-elapsed,75);
+        }else{
+          
+          ctx.fillStyle = "#"+colors[(t/2)+0.5];
+          ctx.fillRect(0,425,elapsed,75);
+          ctx.fillStyle = "#"+colors[(t/2)-0.5];
+          ctx.fillRect(elapsed,425,800-elapsed,75);
+          ctx.font = "60px Arial";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = "white";
+          splitText(
+            formatRemaining((5*60*1000)*(1-percent))+` until ${[0,"1ˢᵗ","2ⁿᵈ","3ʳᵈ","4ᵗʰ","5ᵗʰ","6ᵗʰ","7ᵗʰ","8ᵗʰ","9ᵗʰ"][(t+1)/2]}`,
+            elapsed, "#"+uncolors[(t/2)+0.5], "#"+uncolors[(t/2)-0.5]
+          )
+        }
+      }else{
+        ctx.fillStyle = "#"+colors[t/2];
+        textcols = [];
+        if(percent *45*60 < 5){ //if bell
+          textcols = ["#000","#"+uncolors[t/2]]//check
+          if(time % 500 > 250) ctx.fillRect(0,425,800,75);
+        }else if(elapsed < 400){
+          ctx.fillRect(elapsed,425,800-elapsed,75);
+          textcols = ["#000", "#"+uncolors[t/2]]
+        }else{
+          ctx.fillRect(0,425,elapsed,75);
+          textcols = ["#"+uncolors[t/2], "#000"]
+        }
+        ctx.font = "60px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        splitText(
+          formatRemaining((45*60*1000)*(1-percent))+` left for ${[0,"1ˢᵗ","2ⁿᵈ","3ʳᵈ","4ᵗʰ","5ᵗʰ","6ᵗʰ","7ᵗʰ","8ᵗʰ","9ᵗʰ"][(t)/2]}`,
+          elapsed, ...textcols
+        )
+      }
+    }
   </script>
 </html>
