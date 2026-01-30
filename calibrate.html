@@ -16,13 +16,13 @@
   </body>
   <script>
     systoff = 0;
-    a.oninput = ()=>{systoff -= 1000}
-    b.oninput = ()=>{systoff -= 100}
-    c.oninput = ()=>{systoff -= 10}
+    a.onclick = ()=>{systoff -= 1000}
+    b.onclick = ()=>{systoff -= 100}
+    c.onclick = ()=>{systoff -= 10}
     
-    d.oninput = ()=>{systoff += 10}
-    e.oninput = ()=>{systoff += 100}
-    f.oninput = ()=>{systoff += 1000}
+    d.onclick = ()=>{systoff += 10}
+    e.onclick = ()=>{systoff += 100}
+    f.onclick = ()=>{systoff += 1000}
     function draw(){
       esystoff.value = systoff;
       const date = new Date(Date.now() - systoff);
