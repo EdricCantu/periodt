@@ -1,10 +1,9 @@
 <html>
   <body>
-    <span>systoff - </span><input id="esystoff" type="number" value="0" disabled>
-    <br>
-    <span>display - </span><span id="display" style="font-size: 32px; font-family: monospace">00:00</span>
+    <span id="display" style="font-size: 32px; font-family: monospace">00:00:00</span>
     <br>
     <b>d &lt; r = sub || d > r = add </b>
+    <br>
     <button id="a">-1000</button><button id="b">-100</button><button id="c">-10</button>
       -/+
     <button id="d">+10</button><button id="e">+100</button><button id="f">+1000</button>
@@ -25,14 +24,16 @@
     e.onclick = ()=>{systoff += 100}
     f.onclick = ()=>{systoff += 1000}
     function draw(){
-      esystoff.value = systoff;
       const date = new Date(Date.now() - systoff);
-      display.innerText = 
+      display.innerHTML = 
         date.getHours().toString().padStart(2,0)
           + ":" +
         date.getMinutes().toString().padStart(2,0)
           + ":" +
         date.getSeconds().toString().padStart(2,0)
+          +
+        (  ((systoff >= 0)?"+":"")+systoff.toString()  )
+          .sup();
       ;
       requestAnimationFrame(draw);
     }
