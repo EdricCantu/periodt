@@ -1,17 +1,52 @@
 <html>
+  <style>
+    code {
+      
+    }
+  </style>
   <body>
-    <span id="display" style="font-size: 32px; font-family: monospace">00:00:00</span>
-    <br>
-    <b>d &lt; r = sub || d > r = add </b>
-    <br>
-    <button id="a">-1000</button><button id="b">-100</button><button id="c">-10</button>
-      -/+
-    <button id="d">+10</button><button id="e">+100</button><button id="f">+1000</button>
-    
+    <h1><code>systoff</code> calibration</h2>
+    <span style="color: light-gray;">
+      The time represents the real time. 
+      It, added or subracted by the following number indicates the time as told by the browser.
+      <br>
+      <code>systoff</code> is the offset of the browser given time from real time.
+    </span>
+    <span id="display" style="font-size: 50px; font-family: monospace">00:00:00</span>
+    <table style="text-align: center">
+      <tr title="display is behind reference">
+        <td><b>d &lt; r</b></td>
+        <td></td>
+        <td title="display is ahead of reference"><b>d > r</b></td>
+      </tr>
+      <tr>
+        <td>
+          <button id="a">-1000</button><button id="b">-100</button><button id="c">-10</button>
+        </td>
+        <td> +/- </td>
+        <td>
+          <button id="d">+10</button><button id="e">+100</button><button id="f">+1000</button>
+        </td>
+      </tr>
+    </table>
     <br><br><br><br>
+    <h1><code>offset</code> calibration</h1>
+    <span style="color: light-gray;">
+      Set the time for the next bell is expected to ring.
+      <br>
+      Press the <code>⏺️</code> button to begin recording.
+      The number changing rapidly represents the offset from the time the bell should ring, and now.
+      <br>
+      When a bell sound is detected from the microphone, the number will freeze instantly and turn yellow. 
+      If the bell persists for ~5 seconds, it is a period changing bell. The offset will turn green.
+      If not, the offset will turn red for one second, then black, and unfreeze as if nothing happened.
+      <br>
+      The offset, once green, represents the offset of the bell system's clock from real time.
+    </span>
     
     <button title="start detecting bell">⏺️</button>
     <input type="time" placeholder="expected ringing time">
+    <br>
     <input type="number" placebolder="offset" disabled>
   </body>
   <script>
@@ -33,7 +68,7 @@
         date.getSeconds().toString().padStart(2,0)
           +
         (  ((systoff >= 0)?"+":"")+systoff.toString()  )
-          .sup().sup().sup().sub();
+          .sub().sup().sup()
       ;
       requestAnimationFrame(draw);
     }
