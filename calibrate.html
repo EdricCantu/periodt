@@ -26,9 +26,15 @@
     function draw(){
       esystoff.value = systoff;
       const date = new Date(Date.now() - systoff);
-      display.innerText = date.getHours().toString().padStart(0,2) + date.getMinutes().toString().padStart(0,2);
+      display.innerText = 
+        date.getHours().toString().padStart(0,2)
+          + ":" +
+        date.getMinutes().toString().padStart(0,2)
+          + ":" +
+        date.getSeconds().toString().padStart(0,2)
+      ;
       requestAnimationFrame(draw);
     }
-    draw()
+    draw();
   </script>
 </html>
