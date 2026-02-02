@@ -78,7 +78,7 @@
         if(!t.value) return alert("please set a time");
         stream = await navigator.mediaDevices.getUserMedia({audio: true});
         const tempdate = new Date()
-        recording = tempdate.getMonth()+1+"/"+tempdate.getDay()+"/"+(tempdate.getYear()+1900)+" "+t.value;
+        recording = tempdate.getMonth()+1+"/"+tempdate.getDate()+"/"+(tempdate.getYear()+1900)+" "+t.value;
         recording = (new Date(recording)).getTime();
         cc.disabled = false;
         t.disabled = true;
