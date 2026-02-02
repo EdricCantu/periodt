@@ -47,15 +47,23 @@
       <br>
       If not, the offset will turn red for one second, then black, and unfreeze as if nothing happened.
       <br><br>
-      The offset, once green, represents the offset of the bell system's clock from real time.
+      The offset, once green, represents the offset of the bell system's clock from real time. Recording will halt.
+      <br><br>
+      If needed, after pressing the ⏺️ button, press the Calibrate Calibrator button once audibly, or in a quiet room.
+      <br>
+      It determines the delay between the occurence of sound and the javascript interpreter receiving it,
+      <br>
+      since touch events are near instant compared to mic processing.
     </span>
     <br><br>
-    <button title="start detecting bell">⏺️</button>
-    <input type="time" placeholder="expected ringing time">
+    <button title="press me" disabled id="cc">Calibrate Calibrator</button> <input type="number" placeholder="delay">
+    <button title="start detecting bell" id="r">⏺️</button>
+    <input type="time" placeholder="expected ringing time" id="t">
     <br>
-    <input type="number" placebolder="offset" disabled>
+    <input type="number" placeholder="offset" id="o" disabled>
   </body>
   <script>
+    var stream;
     systoff = 0;
     a.onclick = ()=>{systoff -= 1000}
     b.onclick = ()=>{systoff -= 100}
@@ -64,6 +72,27 @@
     d.onclick = ()=>{systoff += 10}
     e.onclick = ()=>{systoff += 100}
     f.onclick = ()=>{systoff += 1000}
+    var recording = 0;
+    r.onclick = async ()=>{
+      if(!recording){
+        if(!h.value) return alert("please set a time");
+        stream = await navigator.mediaDevices.getUserMedia({audio: true});
+        const tempdate = new Date()
+        recording = tempdate.getMonth()+1+"/"+tempdate.getDay()+"/"+(tempdate.getYear()+1900)+" "+h.value;
+        recording = (new Date(recording)).getTime();
+        cc.disabled = false;
+        t.disabled = true;
+      }else{
+        recording = 0;
+        cc.disabled = true;
+        t.disabled = false;
+        //stream.end()
+      }
+    }
+    ccd = 0;
+    cc.onclick = ()=>{
+      ccd = performance.now();
+    }
     function draw(){
       const date = new Date(Date.now() - systoff);
       display.innerHTML = 
@@ -76,6 +105,9 @@
         (  ((systoff >= 0)?"+":"")+systoff.toString() + "ms".sub().sup().sub() )
           .sub().sup().sup()
       ;
+      if(recording){
+        o = date.getTime() - recording;
+      }
       requestAnimationFrame(draw);
     }
     draw();
