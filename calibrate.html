@@ -75,10 +75,10 @@
     var recording = 0;
     r.onclick = async ()=>{
       if(!recording){
-        if(!h.value) return alert("please set a time");
+        if(!t.value) return alert("please set a time");
         stream = await navigator.mediaDevices.getUserMedia({audio: true});
         const tempdate = new Date()
-        recording = tempdate.getMonth()+1+"/"+tempdate.getDay()+"/"+(tempdate.getYear()+1900)+" "+h.value;
+        recording = tempdate.getMonth()+1+"/"+tempdate.getDay()+"/"+(tempdate.getYear()+1900)+" "+t.value;
         recording = (new Date(recording)).getTime();
         cc.disabled = false;
         t.disabled = true;
@@ -106,7 +106,7 @@
           .sub().sup().sup()
       ;
       if(recording){
-        o = date.getTime() - recording;
+        o.value = date.getTime() - recording;
       }
       requestAnimationFrame(draw);
     }
