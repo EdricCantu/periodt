@@ -73,7 +73,7 @@
           + ":" +
         date.getSeconds().toString().padStart(2,0)
           +
-        (  ((systoff >= 0)?"+":"")+systoff.toString() + "ms".sub() )
+        (  ((systoff >= 0)?"+":"")+systoff.toString() + "ms".sub().sup().sub() )
           .sub().sup().sup()
       ;
       requestAnimationFrame(draw);
