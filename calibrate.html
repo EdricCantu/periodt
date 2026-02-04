@@ -63,7 +63,11 @@
     <input type="number" placeholder="offset" id="o" disabled>
   </body>
   <script>
-    var stream;
+    gum = null;
+    actx = null;
+    mss = null;
+    proc = null;
+    caught = 0;
     systoff = 0;
     a.onclick = ()=>{systoff -= 1000}
     b.onclick = ()=>{systoff -= 100}
@@ -76,17 +80,30 @@
     r.onclick = async ()=>{
       if(!recording){
         if(!t.value) return alert("please set a time");
-        stream = await navigator.mediaDevices.getUserMedia({audio: true});
-        const tempdate = new Date()
-        recording = tempdate.getMonth()+1+"/"+tempdate.getDate()+"/"+(tempdate.getYear()+1900)+" "+t.value;
-        recording = (new Date(recording)).getTime();
-        cc.disabled = false;
-        t.disabled = true;
+        navigator.mediaDevices.getUserMedia({audio: true})
+        .then((s)=>{
+          gum = s;
+          const tempdate = new Date()
+          recording = tempdate.getMonth()+1+"/"+tempdate.getDate()+"/"+(tempdate.getYear()+1900)+" "+t.value;
+          recording = (new Date(recording)).getTime();
+          cc.disabled = false;
+          t.disabled = true;
+          actx = new AudioContext();
+          mss = actx.createMediaStreamSource(gum);
+          actx.audioWorklet.addModule("processor.js").then(()=>{
+            proc = new AudioWorkletNode(actx, "processor");
+            mss.connect(proc).connect(actx.destination);
+          })
+          .catch(err=>alert("Error: "+err);
+        })
+        .catch((err)=>alert("Error: "+err));
       }else{
         recording = 0;
         cc.disabled = true;
         t.disabled = false;
-        //stream.end()
+        gum.getTracks().forEach(track => track.stop());
+        gum = null;
+        o.value = "";
       }
     }
     ccd = 0;
@@ -95,7 +112,7 @@
     }
     function draw(){
       const date = new Date(Date.now() - systoff);
-      display.innerHTML = 
+      const dihtml = 
         date.getHours().toString().padStart(2,0)
           + ":" +
         date.getMinutes().toString().padStart(2,0)
@@ -105,11 +122,35 @@
         (  ((systoff >= 0)?"+":"")+systoff.toString() + "ms".sub().sup().sub() )
           .sub().sup().sup()
       ;
-      if(recording){
+      if(dihtml != display.innerHTML) display.innerHTML = dihtml;
+      if(recording && !caught){
         o.value = date.getTime() - recording;
       }
       requestAnimationFrame(draw);
     }
     draw();
+    window.onmessage = (msg)=>{
+      caught = msg.data;
+      switch(msg.data){
+        case 1:
+          o.color = "yellow";
+          break;
+        case 2:
+          o.color = "green";
+          recording = 0;
+          cc.disabled = true;
+          t.disabled = false;
+          gum.getTracks().forEach(track => track.stop());
+          gum = null;
+          break;
+        case 3:
+          o.color = "red";
+          setTimeout(()=>{
+            o.color = black;
+            caught = 0;
+          }, 1000);
+          break;
+      }
+    }
   </script>
 </html>
