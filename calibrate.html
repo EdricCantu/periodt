@@ -133,18 +133,19 @@
       caught = msg.data;
       switch(msg.data){
         case 1:
-          o.color = "yellow";
+          o.style.color = "yellow";
           break;
         case 2:
-          o.color = "green";
+          o.style.color = "green";
           recording = 0;
           cc.disabled = true;
           t.disabled = false;
           gum.getTracks().forEach(track => track.stop());
           gum = null;
+          caught = 0;
           break;
         case 3:
-          o.color = "red";
+          o.style.color = "red";
           setTimeout(()=>{
             o.color = black;
             caught = 0;
