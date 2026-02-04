@@ -1,11 +1,16 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8"></meta>
+    <title>Calibrator</title>
+  </head>
   <style>
     code {
       
     }
   </style>
   <body>
-    <h1><code>systoff</code> calibration</h2>
+    <h1><code>systoff</code> calibration</h1>
     <span style="color: light-gray;">
       The time represents the real time.
       <br>
@@ -56,13 +61,14 @@
       since touch events are near instant compared to mic processing.
     </span>
     <br><br>
-    <button title="press me" disabled id="cc">Calibrate Calibrator</button> <input type="number" placeholder="delay">
+    <button title="press me" disabled id="cc">Calibrate Calibrator</button> <input type="number" placeholder="delay" id="ccdel">
     <button title="start detecting bell" id="r">⏺️</button>
     <input type="time" placeholder="expected ringing time" id="t">
     <br>
     <input type="number" placeholder="offset" id="o" disabled>
   </body>
   <script>
+    [a,b,c,d,e,f, t,o,r,cc, ccdel] = ["a","b","c","d","e","f", "t","o","r","cc","ccdel"].map(id=>document.getElementById(id));
     gum = null;
     actx = null;
     mss = null;
@@ -80,6 +86,7 @@
     r.onclick = async ()=>{
       if(!recording){
         if(!t.value) return alert("please set a time");
+        o.style.color = "black";
         navigator.mediaDevices.getUserMedia({audio: true})
         .then((s)=>{
           gum = s;
@@ -93,8 +100,32 @@
           actx.audioWorklet.addModule("processor.js").then(()=>{
             proc = new AudioWorkletNode(actx, "processor");
             mss.connect(proc).connect(actx.destination);
+            proc.port.onmessage = (msg)=>{
+              caught = msg.data;
+              switch(msg.data){
+                case 1:
+                  o.style.color = "yellow";
+                  break;
+                case 2:
+                  o.style.color = "green";
+                  recording = 0;
+                  cc.disabled = true;
+                  t.disabled = false;
+                  gum.getTracks().forEach(track => track.stop());
+                  gum = null;
+                  caught = 0;
+                  break;
+                case 3:
+                  o.style.color = "red";
+                  setTimeout(()=>{
+                    o.style.color = "black";
+                    caught = 0;
+                  }, 1000);
+                  break;
+              }
+            }
           })
-          .catch(err=>alert("Error: "+err);
+          .catch(err=>alert("Error: "+err));
         })
         .catch((err)=>alert("Error: "+err));
       }else{
@@ -108,6 +139,8 @@
     }
     ccd = 0;
     cc.onclick = ()=>{
+      cc.disabled = true;
+      proc.port.postMessage(-4);
       ccd = performance.now();
     }
     function draw(){
@@ -126,14 +159,18 @@
       if(recording && !caught){
         o.value = date.getTime() - recording;
       }
+      if(ccd){
+        ccdel.value = performance.now() - ccd;
+      }
       requestAnimationFrame(draw);
     }
     draw();
-    window.onmessage = (msg)=>{
-      caught = msg.data;
+    proc.port.onmessage = (msg)=>{
       switch(msg.data){
         case 1:
+          caught = 1;
           o.style.color = "yellow";
+          cc.disabled = true;
           break;
         case 2:
           o.style.color = "green";
@@ -149,8 +186,16 @@
           setTimeout(()=>{
             o.color = black;
             caught = 0;
+            cc.disabled = false;
           }, 1000);
           break;
+        case 4://sound detected.
+          cc.disabled = false;
+          ccd = 0;
+          break;
+        case 5://mic is really bad and really laggy, or something. no click sound detected
+          cc.disabled = false;
+          ccd = 0;
       }
     }
   </script>
