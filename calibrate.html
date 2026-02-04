@@ -91,7 +91,7 @@
         .then((s)=>{
           gum = s;
           const tempdate = new Date()
-          recording = tempdate.getMonth()+1+"/"+tempdate.getDate()+"/"+(tempdate.getYear()+1900)+" "+t.value;
+          recording = tempdate.getMonth()+1+"/"+tempdate.getDate()+"/"+(tempdate.getFullYear()+1900)+" "+t.value;
           recording = (new Date(recording)).getTime();
           cc.disabled = false;
           t.disabled = true;
@@ -101,10 +101,10 @@
             proc = new AudioWorkletNode(actx, "processor");
             mss.connect(proc).connect(actx.destination);
             proc.port.onmessage = (msg)=>{
-              caught = msg.data;
               switch(msg.data){
                 case 1:
                   o.style.color = "yellow";
+                  caught = 1;
                   break;
                 case 2:
                   o.style.color = "green";
@@ -114,6 +114,8 @@
                   gum.getTracks().forEach(track => track.stop());
                   gum = null;
                   caught = 0;
+                  actx.close();
+                  actx = null;
                   break;
                 case 3:
                   o.style.color = "red";
@@ -121,6 +123,14 @@
                     o.style.color = "black";
                     caught = 0;
                   }, 1000);
+                  break;
+                case 4: // click detected
+                  cc.disabled = false;
+                  ccd = 0;
+                  break;
+                case 5: // no click within 5 seconds
+                  cc.disabled = false;
+                  ccd = 0;
                   break;
               }
             }
@@ -134,6 +144,8 @@
         t.disabled = false;
         gum.getTracks().forEach(track => track.stop());
         gum = null;
+        actx.close();
+        actx = null;
         o.value = "";
       }
     }
@@ -165,38 +177,5 @@
       requestAnimationFrame(draw);
     }
     draw();
-    proc.port.onmessage = (msg)=>{
-      switch(msg.data){
-        case 1:
-          caught = 1;
-          o.style.color = "yellow";
-          cc.disabled = true;
-          break;
-        case 2:
-          o.style.color = "green";
-          recording = 0;
-          cc.disabled = true;
-          t.disabled = false;
-          gum.getTracks().forEach(track => track.stop());
-          gum = null;
-          caught = 0;
-          break;
-        case 3:
-          o.style.color = "red";
-          setTimeout(()=>{
-            o.color = black;
-            caught = 0;
-            cc.disabled = false;
-          }, 1000);
-          break;
-        case 4://sound detected.
-          cc.disabled = false;
-          ccd = 0;
-          break;
-        case 5://mic is really bad and really laggy, or something. no click sound detected
-          cc.disabled = false;
-          ccd = 0;
-      }
-    }
   </script>
 </html>
