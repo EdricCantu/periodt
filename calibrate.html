@@ -5,177 +5,186 @@
     <title>Calibrator</title>
   </head>
   <style>
-    code {
-      
-    }
+    
   </style>
   <body>
-    <h1><code>systoff</code> calibration</h1>
-    <span style="color: light-gray;">
-      The time represents the real time.
-      <br>
-      It, added or subracted by the following ms count indicates the time as told by the browser.
+    <div>
+      <h1><code>systoff</code> calibration</h1>
+      <span style="color: lightgray;">
+        The time represents the real time.
+        <br>
+        It, added or subracted by the following ms count indicates the time as told by the browser.
+        <br><br>
+        <code>systoff</code> is the offset of the browser given time from real time.
+      </span>
       <br><br>
-      <code>systoff</code> is the offset of the browser given time from real time.
-    </span>
-    <br><br>
-    <span id="display" style="font-size: 50px; font-family: monospace">00:00:00</span>
-    <br>
-    <table style="text-align: center">
-      <tr title="display is behind reference">
-        <td><b>d &lt; r</b></td>
-        <td></td>
-        <td title="display is ahead of reference"><b>d > r</b></td>
-      </tr>
-      <tr>
-        <td>
-          <button id="a">-1000</button><button id="b">-100</button><button id="c">-10</button>
-        </td>
-        <td> +/- </td>
-        <td>
-          <button id="d">+10</button><button id="e">+100</button><button id="f">+1000</button>
-        </td>
-      </tr>
-    </table>
+      <span style="font-size: 50px; font-family: monospace">
+        <span id="disp">00:00:00</span>
+        <sup><sup><sub>
+          <span id="syst">+0</span>
+          <sub><sup><sub>ms</sub></sup></sub>
+        </sub></sup></sup>
+      </span>
+      <br>
+      <table id="modo" style="text-align: center" id="modSystoff"><!--modify offset-->
+        <tr title="display is behind reference">
+          <td><b>d &lt; r</b></td>
+          <td></td>
+          <td title="display is ahead of reference"><b>d > r</b></td>
+        </tr>
+        <tr>
+          <td> <button>-1000</button><button>-100</button><button>-10</button> </td>
+          <td> +/- </td>
+          <td> <button>+10</button><button>+100</button><button>+1000</button> </td>
+        </tr>
+      </table>
+      <script>
+        [modo, disp, syst] = ["modo", "disp", "syst"].map(id=>document.getElementById(id));
+        systoff = 0;
+        modo.onclick = (e)=>{if(e.target.tagName=="button"){
+          systoff += parseInt(e.target.innerText);
+          syst.innerText = ((systoff>=0)?"+":"") + systoff;
+        }};
+        function drawDisplay(){
+          const date = new Date(Date.now() - systoff);//real semiatomic date
+          const dihtml = 
+            date.getHours().toString().padStart(2,'0')
+              + ":" +
+            date.getMinutes().toString().padStart(2,'0')
+              + ":" +
+            date.getSeconds().toString().padStart(2,'0');
+          ;
+          if(dihtml != disp.innerHTML) disp.innerHTML = dihtml;
+          return date;
+        }
+      </script>
+    </div>
     <br><br><br><br>
-    <h1><code>offset</code> calibration</h1>
-    <span style="color: light-gray;">
-      Set the time for the next bell is expected to ring.
+    <div>
+      <h1><code>offset</code> calibration</h1>
+      <span style="color: lightgray;">
+        Set the time for the next bell is expected to ring.
+        <br><br>
+        Press the <code>⏺️</code> button to begin recording.
+        <br>
+        The number changing rapidly represents the offset from the time the bell should ring, and now.
+        <br><br>
+        When a bell sound is detected from the microphone, the number will freeze instantly and turn yellow. 
+        <br>
+        If the bell persists for ~5 seconds, it is a period changing bell. The offset will turn green.
+        <br>
+        If not, the offset will turn red for one second, then black, and unfreeze as if nothing happened.
+        <br><br>
+        The offset, once green, represents the offset of the bell system's clock from real time. Recording will halt.
+        <br><br>
+        If needed, after pressing the ⏺️ button, press the Calibrate Calibrator button once audibly, or in a quiet room.
+        <br>
+        It determines the delay between the occurence of sound and the javascript interpreter receiving it,
+        <br>
+        since touch events are near instant compared to mic processing.
+      </span>
       <br><br>
-      Press the <code>⏺️</code> button to begin recording.
+      <button title="press me" disabled id="cal2">Calibrate Calibrator</button> <input type="number" placeholder="delay" id="calo"><!--CALibrate CALibrator; cal output-->
+      <button title="start detecting bell" id="recd">⏺️</button>
+      <input type="time" placeholder="expected ringing time" id="expt"><!--expected time-->
       <br>
-      The number changing rapidly represents the offset from the time the bell should ring, and now.
-      <br><br>
-      When a bell sound is detected from the microphone, the number will freeze instantly and turn yellow. 
-      <br>
-      If the bell persists for ~5 seconds, it is a period changing bell. The offset will turn green.
-      <br>
-      If not, the offset will turn red for one second, then black, and unfreeze as if nothing happened.
-      <br><br>
-      The offset, once green, represents the offset of the bell system's clock from real time. Recording will halt.
-      <br><br>
-      If needed, after pressing the ⏺️ button, press the Calibrate Calibrator button once audibly, or in a quiet room.
-      <br>
-      It determines the delay between the occurence of sound and the javascript interpreter receiving it,
-      <br>
-      since touch events are near instant compared to mic processing.
-    </span>
-    <br><br>
-    <button title="press me" disabled id="cc">Calibrate Calibrator</button> <input type="number" placeholder="delay" id="ccdel">
-    <button title="start detecting bell" id="r">⏺️</button>
-    <input type="time" placeholder="expected ringing time" id="t">
-    <br>
-    <input type="number" placeholder="offset" id="o" disabled>
-  </body>
-  <script>
-    [a,b,c,d,e,f, t,o,r,cc, ccdel] = ["a","b","c","d","e","f", "t","o","r","cc","ccdel"].map(id=>document.getElementById(id));
-    gum = null;
-    actx = null;
-    mss = null;
-    proc = null;
-    caught = 0;
-    systoff = 0;
-    a.onclick = ()=>{systoff -= 1000}
-    b.onclick = ()=>{systoff -= 100}
-    c.onclick = ()=>{systoff -= 10}
-    
-    d.onclick = ()=>{systoff += 10}
-    e.onclick = ()=>{systoff += 100}
-    f.onclick = ()=>{systoff += 1000}
-    var recording = 0;
-    r.onclick = async ()=>{
-      if(!recording){
-        if(!t.value) return alert("please set a time");
-        o.style.color = "black";
-        navigator.mediaDevices.getUserMedia({audio: true})
-        .then((s)=>{
-          gum = s;
-          const tempdate = new Date()
-          recording = tempdate.getMonth()+1+"/"+tempdate.getDate()+"/"+(tempdate.getFullYear()+1900)+" "+t.value;
-          recording = (new Date(recording)).getTime();
-          cc.disabled = false;
-          t.disabled = true;
-          actx = new AudioContext();
-          mss = actx.createMediaStreamSource(gum);
-          actx.audioWorklet.addModule("processor.js").then(()=>{
-            proc = new AudioWorkletNode(actx, "processor");
-            mss.connect(proc).connect(actx.destination);
-            proc.port.onmessage = (msg)=>{
+      <input type="offset" placeholder="offset" id="offs" disabled>
+      <script>
+        //probably softlock proof, I think state mgmt is okay
+        [cal2,calo, recd,expt,offs] = ["cal2","calo","recd","expt","offs"].map(id=>document.getElementById(id));
+        gum = null;
+        expd = null;//expected date
+        ctx = null;
+        mss = null;
+        pro = null;
+        c2t = null; //calibrator calibrator start time
+        blc = false; //bell caught
+        async function recdStart(){
+          if(!expt.value) return (
+            recd.addEventListener("click", recdStart, {once: true}),
+            alert("please set a time")
+          );
+          offs.style.color = "black";
+          recd.addEventListener("click", recdStop, {once: true});
+          try{
+            gum = await navigator.mediaDevices.getUserMedia({audio: true});
+            expd = new Date();
+            expd = `${expd.getMonth()+1}/${expd.getDate()}/${expd.getFullYear} ${expt.value}`;
+            expd = (new Date(expd)).getTime();
+            cal2.disabled = false;
+            expt.disabled = true;
+            ctx = new AudioContext();
+            mss = ctx.createMediaStreamSource(gum);
+            await ctx.audioWorklet.addModule("processor.js");
+            pro = new AudioWorkletNode(ctx, "processor");
+            mss.connect(pro).connect(ctx.destination);
+            pro.port.onmessage = (msg)=>{
               switch(msg.data){
-                case 1:
-                  o.style.color = "yellow";
-                  caught = 1;
+                case 1://possible positive bell, freeze offs. leads to msg 2 or 3.
+                  offs.style.color = "yellow";
+                  blc = true;
                   break;
-                case 2:
-                  o.style.color = "green";
-                  recording = 0;
-                  cc.disabled = true;
-                  t.disabled = false;
-                  gum.getTracks().forEach(track => track.stop());
-                  gum = null;
-                  caught = 0;
-                  actx.close();
-                  actx = null;
+                case 2://positive bell detected, stop everything
+                  offs.style.color = "green";
+                  //
+                  recdStop();
                   break;
-                case 3:
-                  o.style.color = "red";
+                case 3://false positive bell, keep listening
+                  offs.style.color = "red";
                   setTimeout(()=>{
-                    o.style.color = "black";
-                    caught = 0;
+                    offs.style.color = "black";
+                    blc = false;
                   }, 1000);
                   break;
-                case 4: // click detected
-                  cc.disabled = false;
-                  ccd = 0;
+                  
+                case 4: // click detected, freeze calo, calo is now the mic's delay in ms
+                  cal2.disabled = false;
+                  c2t = null;
                   break;
                 case 5: // no click within 5 seconds
-                  cc.disabled = false;
-                  ccd = 0;
+                  c2t = null;
+                  calo.style.color = "red";
+                  setTimeout(()=>{
+                    calo.style.color = "black";
+                    cal2.disabled = false;
+                    calo.value = undefined;
+                  }, 1000)
                   break;
               }
             }
-          })
-          .catch(err=>alert("Error: "+err));
-        })
-        .catch((err)=>alert("Error: "+err));
-      }else{
-        recording = 0;
-        cc.disabled = true;
-        t.disabled = false;
-        gum.getTracks().forEach(track => track.stop());
-        gum = null;
-        actx.close();
-        actx = null;
-        o.value = "";
-      }
-    }
-    ccd = 0;
-    cc.onclick = ()=>{
-      cc.disabled = true;
-      proc.port.postMessage(-4);
-      ccd = performance.now();
-    }
-    function draw(){
-      const date = new Date(Date.now() - systoff);
-      const dihtml = 
-        date.getHours().toString().padStart(2,0)
-          + ":" +
-        date.getMinutes().toString().padStart(2,0)
-          + ":" +
-        date.getSeconds().toString().padStart(2,0)
-          +
-        (  ((systoff >= 0)?"+":"")+systoff.toString() + "ms".sub().sup().sub() )
-          .sub().sup().sup()
-      ;
-      if(dihtml != display.innerHTML) display.innerHTML = dihtml;
-      if(recording && !caught){
-        o.value = date.getTime() - recording;
-      }
-      if(ccd){
-        ccdel.value = performance.now() - ccd;
-      }
-      requestAnimationFrame(draw);
-    }
-    draw();
-  </script>
+          }catch(e){
+            alert("Error: "+e.message);
+            recdStop();
+          }
+        }
+        function recdStop(){
+          recd.removeEventListener("click", recdStop, {once: true});//if stopped by error or msg 2
+          if(gum) gum.getTracks().forEach(track => track.stop());
+          gum = null;
+          expd = null;
+          cal2.disabled = true;
+          expt.disabled = false;
+          if(ctx) ctx.close();
+          ctx = null;
+          mss = null;
+          pro = null;
+          blc = false;
+          c2t = null;
+          recd.addEventListener("click", recdStart, {once: true});
+        }
+        cal2.onclick = ()=>{
+          cal2.disabled = true;
+          pro.port.postMessage(-4);
+          c2t = performance.now();
+        }
+        function draw(){
+          const date = drawDisplay();
+          if(gum && !blc) offs.value = date.getTime() - expd;
+          if(c2t !== null) calo.value = performance.now() - c2t;
+          requestAnimationFrame(draw);
+        }
+        draw();
+      </script>
+    </div>
+  </body>
 </html>
