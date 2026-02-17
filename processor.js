@@ -3,7 +3,6 @@ class Proc extends AudioWorkletProcessor{
   process(inputs){
     const input = inputs[0];
     if (!input) return true;
-    const samples = input[0];
     if(!this.state[0]){//[0,...]
       const snrgood = this.isGoodSNR(input);
       if(!this.state[1]){//blackened//[0,0]
