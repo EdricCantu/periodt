@@ -6,12 +6,12 @@ class Proc extends AudioWorkletProcessor{
       if(!this.state[1]){//blackened//[0,0]
         if(snrgood){//move to yellow
           state = [0, 1, performance.now()];
-          postMessage(1)
+          postMessage(1);
         }else{}//still black
       }else{//yellowed//[0,1,...]
         if(snrgood){//not continuous, fail
           state = [0,0];
-          postMessage(3)
+          postMessage(3);
         }else if(performance.now() - state[2] > 4000){//still continuing, pass if time reached
           postMessage(2);
           return false;
@@ -22,10 +22,10 @@ class Proc extends AudioWorkletProcessor{
     }
     return true;
   }
-  isGoodSNR(samples){
-    const ga = goertzel(samples, 750);
-    const gb = goertzel(samples, 800);
-    const gc = goertzel(samples, 850);
+  isGoodSNR(samples){//signal to noise ratio
+    const ga = this.goertzel(samples, 750);
+    const gb = this.goertzel(samples, 800);
+    const gc = this.goertzel(samples, 850);
     var gz = Math.max(ga,gc);
     gz *= 5//noise threshold;
     return gb > gc;
