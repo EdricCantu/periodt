@@ -108,16 +108,18 @@
           recd.addEventListener("click", recdStop, {once: true});
           try{
             gum = await navigator.mediaDevices.getUserMedia({audio: true});
-            expd = new Date();
-            expd = `${expd.getMonth()+1}/${expd.getDate()}/${expd.getFullYear()} ${expt.value}`;
-            expd = (new Date(expd)).getTime();
+                                                                                       //safer way to do so?
+            //safer way to do so?
+              expd = new Date();
+              expd = `${expd.getMonth()+1}/${expd.getDate()}/${expd.getFullYear()} ${expt.value}`;
+              expd = (new Date(expd)).getTime();
             cal2.disabled = false;
             expt.disabled = true;
             ctx = new AudioContext();
             mss = ctx.createMediaStreamSource(gum);
             await ctx.audioWorklet.addModule("processor.js");
             pro = new AudioWorkletNode(ctx, "processor");
-            mss.connect(pro).connect(ctx.destination);
+            mss.connect(pro).connect(ctx.destination);                                 //possibly not needed to be connected to ctx.destination
             pro.port.onmessage = (msg)=>{
               switch(msg.data){
                 case 1://possible positive bell, freeze offs. leads to msg 2 or 3.
@@ -147,7 +149,7 @@
                   setTimeout(()=>{
                     calo.style.color = "black";
                     cal2.disabled = false;
-                    calo.value = undefined;
+                    calo.value = "";
                   }, 1000)
                   break;
               }
