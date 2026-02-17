@@ -1,18 +1,21 @@
 class Proc extends AudioWorkletProcessor{
   state = [0,0];
-  process([input]){
+  process(inputs){
+    const input = inputs[0];
+    if (!input) return true;
+    const samples = input[0];
     if(!this.state[0]){//[0,...]
       const snrgood = this.isGoodSNR(input);
       if(!this.state[1]){//blackened//[0,0]
         if(snrgood){//move to yellow
-          state = [0, 1, performance.now()];
+          state = [0, 1, currentTime];
           postMessage(1);
         }else{}//still black
       }else{//yellowed//[0,1,...]
         if(snrgood){//not continuous, fail
           state = [0,0];
           postMessage(3);
-        }else if(performance.now() - state[2] > 4000){//still continuing, pass if time reached
+        }else if(currentTime - state[2] > 4){//still continuing, pass if time reached
           postMessage(2);
           return false;
         }else{}//continuing, standby if time not reached
@@ -23,24 +26,29 @@ class Proc extends AudioWorkletProcessor{
     return true;
   }
   isGoodSNR(samples){//signal to noise ratio
-    const ga = this.goertzel(samples, 750);
-    const gb = this.goertzel(samples, 800);
-    const gc = this.goertzel(samples, 850);
+    if(!this.coa){
+      this.coa = this.calcCoeff(750, samples.length);
+      this.cob = this.calcCoeff(800, samples.length);
+      this.coc = this.calcCoeff(850, samples.length);
+    }
+    const ga = this.goertzel(samples, this.coa);
+    const gb = this.goertzel(samples, this.cob);
+    const gc = this.goertzel(samples, this.coc);
     var gz = Math.max(ga,gc);
     gz *= 5//noise threshold;
-    return gb > gc;
+    return gb > gz;
   }
-  goertzel(samples, freq){
-    if(!this.co){
-      const a = Math.round(samples.length * 800 / sampleRate);
-      const b = (2 * Math.PI * a) / samples.length;
-      this.co = 2 * Math.cos(b);
-    }
+  calcCoeff(freq, sampleLen){
+    const a = Math.round(samples.length * freq / sampleRate);
+    const b = (2 * Math.PI * a) / sampleLen;
+    return 2 * Math.cos(b);
+  }
+  goertzel(samples, coeff){
     var prev1 = 0;
-    var prev1 = 0;
+    var prev2 = 0;
     var i = 0;
     for(const sample of samples){
-      const c = sample + this.co * prev1 - prev2;
+      const c = sample + coeff * prev1 - prev2;
       prev2 = prev1;
       prev1 = c;
     }
