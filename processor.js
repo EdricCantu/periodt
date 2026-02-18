@@ -1,8 +1,7 @@
 class Proc extends AudioWorkletProcessor{
   state = [0,0];
   process(inputs){
-    console.log(inputs);
-    const input = inputs[0][0];
+    const input = inputs?.[0]?.[0];
     if (!input) return true;
     if(!this.state[0]){//[0,...]
       const snrgood = this.isGoodSNR(input);
@@ -36,6 +35,7 @@ class Proc extends AudioWorkletProcessor{
     const gc = this.goertzel(samples, this.coc);
     var gz = Math.max(ga,gc);
     gz *= 5;//noise threshold
+    console.log({samples, freqPow: gb, notPow: gz});
     return gb > gz;
   }
   calcCoeff(freq, sampleLen){
