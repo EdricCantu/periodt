@@ -36,7 +36,7 @@ class Proc extends AudioWorkletProcessor{
     var gz = Math.max(ga,gc);
     gz *= 5;//noise threshold
     console.log({samples, freqPow: gb, notPow: gz});
-    this.port.postMessage([0, freqPow, notPow]);
+    this.port.postMessage([0, gb, gz]);
     return gb > gz;
   }
   calcCoeff(freq, sampleLen){
