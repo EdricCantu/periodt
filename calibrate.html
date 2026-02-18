@@ -1,11 +1,13 @@
-<!DOCTYPE html>
+rfrf4rf<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8"></meta>
     <title>Calibrator</title>
   </head>
   <style>
-    
+    goertzelSignalI, goertzelNoiseI{
+      font-family: monospace;
+    }
   </style>
   <body>
     <div>
@@ -89,9 +91,14 @@
       <input type="time" placeholder="expected ringing time" id="expt"><!--expected time-->
       <br>
       <input type="offset" placeholder="offset" id="offs" disabled>
+      <br><br>
+      <span>signal power </span> <progress id="goertzelSignalP" min="0" max="200" value="0"></progress> <span id="goertzelSignalI">(00000)</span>
+      <br>
+      <span>noise power </span> <progress id="goertzelNoiseP" min="0" max="200" value="0"></progress> <span id="goertzelNoiseI">(00000)</span>
       <script>
         //probably softlock proof, I think state mgmt is okay
         [cal2,calo, recd,expt,offs] = ["cal2","calo","recd","expt","offs"].map(id=>document.getElementById(id));
+        [goertzelSignalP, goertzelNoiseP ,goertzelSignalI, goertzelNoiseI] = ["goertzelSignalP", "goertzelNoiseP" ,"goertzelSignalI", "goertzelNoiseI"].map(id=>document.getElementById(id));
         gum = null;
         expd = null;//expected date
         ctx = null;
@@ -121,7 +128,15 @@
             pro = new AudioWorkletNode(ctx, "processor");
             mss.connect(pro).connect(ctx.destination);                                 //possibly not needed to be connected to ctx.destination
             pro.port.onmessage = (msg)=>{
-              switch(msg.data){
+              switch(msg.data[0]){
+                case 0: //goertzel data
+                  goertzelSignalP.value = msg.data[1];
+                  msg.data[1] = Math.round(msg.data[1] * 100).toString().padStart(5,"0")
+                  goertzelSignalI.innerText = "("+msg.data[1]+")";
+                  goertzelNoiseP.value = msg.data[2];
+                  msg.data[2] = Math.round(msg.data[2] * 100).toString().padStart(5,"0")
+                  goertzelNoiseI.innerText = "("+msg.data[2]+")";
+                  break;
                 case 1://possible positive bell, freeze offs. leads to msg 2 or 3.
                   offs.style.color = "yellow";
                   blc = true;
