@@ -1,7 +1,7 @@
 class Proc extends AudioWorkletProcessor{
   state = [0,0];
   block = [];
-  blockSize = 128*8;//change second term only
+  blockSize = 128*32;//change second term only
   process(inputs){
     const input = inputs?.[0]?.[0];
     if (!input) return true;
