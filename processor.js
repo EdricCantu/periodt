@@ -8,14 +8,14 @@ class Proc extends AudioWorkletProcessor{
       if(!this.state[1]){//blackened//[0,0]
         if(snrgood){//move to yellow
           this.state = [0, 1, currentTime];
-          this.port.postMessage(1);
+          this.port.postMessage([1]);
         }else{}//still black
       }else{//yellowed//[0,1,...]
         if(snrgood){//not continuous, fail
           this.state = [0,0];
-          this.port.postMessage(3);
+          this.port.postMessage([3]);
         }else if(currentTime - this.state[2] > 4){//still continuing, pass if time reached
-          this.port.postMessage(2);
+          this.port.postMessage([2]);
           return false;
         }else{}//continuing, standby if time not reached
       }
@@ -36,6 +36,7 @@ class Proc extends AudioWorkletProcessor{
     var gz = Math.max(ga,gc);
     gz *= 5;//noise threshold
     console.log({samples, freqPow: gb, notPow: gz});
+    this.port.postMessage([0, freqPow, notPow]);
     return gb > gz;
   }
   calcCoeff(freq, sampleLen){
