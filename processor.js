@@ -7,15 +7,15 @@ class Proc extends AudioWorkletProcessor{
       const snrgood = this.isGoodSNR(input);
       if(!this.state[1]){//blackened//[0,0]
         if(snrgood){//move to yellow
-          state = [0, 1, currentTime];
-          postMessage(1);
+          this.state = [0, 1, currentTime];
+          this.port.postMessage(1);
         }else{}//still black
       }else{//yellowed//[0,1,...]
         if(snrgood){//not continuous, fail
-          state = [0,0];
-          postMessage(3);
-        }else if(currentTime - state[2] > 4){//still continuing, pass if time reached
-          postMessage(2);
+          this.state = [0,0];
+          this.port.postMessage(3);
+        }else if(currentTime - this.state[2] > 4){//still continuing, pass if time reached
+          this.port.postMessage(2);
           return false;
         }else{}//continuing, standby if time not reached
       }
@@ -34,26 +34,23 @@ class Proc extends AudioWorkletProcessor{
     const gb = this.goertzel(samples, this.cob);
     const gc = this.goertzel(samples, this.coc);
     var gz = Math.max(ga,gc);
-    gz *= 5//noise threshold;
+    gz *= 5;//noise threshold
     return gb > gz;
   }
   calcCoeff(freq, sampleLen){
-    const a = Math.round(samples.length * freq / sampleRate);
+    const a = Math.round(sampleLen * freq / sampleRate);
     const b = (2 * Math.PI * a) / sampleLen;
     return 2 * Math.cos(b);
   }
   goertzel(samples, coeff){
     var prev1 = 0;
     var prev2 = 0;
-    var i = 0;
     for(const sample of samples){
       const c = sample + coeff * prev1 - prev2;
       prev2 = prev1;
       prev1 = c;
     }
-    return
-      prev2**2  +  prev1**2
-      - this.co*prev1*prev2;
+    return prev2**2  +  prev1**2  -  coeff*prev1*prev2;
   }
 }
 
