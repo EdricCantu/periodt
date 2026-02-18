@@ -114,7 +114,13 @@ rfrf4rf<!DOCTYPE html>
           offs.style.color = "black";
           recd.addEventListener("click", recdStop, {once: true});
           try{
-            gum = await navigator.mediaDevices.getUserMedia({audio: true});
+            gum = await navigator.mediaDevices.getUserMedia({
+              audio: {
+                echoCancellation: false,
+                noiseSuppression: false,
+                autoGainControl: false
+              }
+            });
                                                                                        //safer way to do so?
             //safer way to do so?
               expd = new Date();
