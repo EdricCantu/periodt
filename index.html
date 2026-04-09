@@ -21,7 +21,7 @@
     const params = new URLSearchParams(window.location.search);
     var systoff = parseInt(params.get("systoff") || "0");
     
-    if(systoff === 0){
+    if(!systoff){
       if(localStorage.systoff){
         systoff = localStorage.systoff;
         alert("using cached systoff: "+systoff)
@@ -30,8 +30,11 @@
         aggOffsets().then(info=>{
           alert(`Estimated systoff to be\n    ${info.o}ms\nWith an accuracy of\n    ±${info.e}\n\nFaster internet can make this estimate more accurate!`);
           systoff = info.o;
+          localStorage.systoff
         }).catch(()=>{})
       }
+    }else{
+      localStorage.systoff = undefined;
     }
     
     function nowDate() {
