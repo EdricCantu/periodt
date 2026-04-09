@@ -1,6 +1,8 @@
 <!DOCTYPE html> 
 <html>
-  <head></head>
+  <head>
+    <script src="./tsync.js"></script>
+  </head>
   <body>
     <canvas id="can" width="800" height="550" style="border: 1px solid black"></canvas>
   </body>
@@ -17,8 +19,21 @@
     -->
   <script>
     const params = new URLSearchParams(window.location.search);
-    const systoff = parseInt(params.get("systoff") || "0");
-
+    var systoff = parseInt(params.get("systoff") || "0");
+    
+    if(systoff === 0){
+      if(localStorage.systoff){
+        systoff = localStorage.systoff;
+        alert("using cached systoff: "+systoff)
+      }else{
+        alert("Wait a few seconds for time to sync");
+        aggOffsets().then(info=>{
+          alert(`Estimated systoff to be\n    ${info.o}ms\nWith an accuracy of\n    ±${info.e}\n\nFaster internet can make this estimate more accurate!`);
+          systoff = info.o;
+        }).catch(()=>{})
+      }
+    }
+    
     function nowDate() {
       return new Date(Date.now() - systoff);
     }
