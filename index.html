@@ -21,7 +21,7 @@
             var flashCt = 0;
             function flash(){
               flashCt++;
-              window.statusText = (flashCt%2)?{size: "50px", text: "Pulled Update"}:undefined
+              window.statusText = (flashCt%2)?{size: "40px", text: "Pulled Update"}:undefined
               if(flashCt == 10) clearInterval(flashInterval);
             }
             flashInterval = setInterval(flash,333);
@@ -212,7 +212,7 @@
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "#000";
-        ctx.fillText(window.statusText.text, 400, 475);
+        ctx.fillText(window.statusText.text, 400, 525);
       }
       requestAnimationFrame(draw);
     }
