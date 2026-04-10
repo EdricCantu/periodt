@@ -11,11 +11,11 @@
       
       //const realtime = new Ably.Realtime({key: 'YOUR_ABLY_API_KEY',autoConnect: typeof window !== 'undefined'});
       const rt = new Ably.Realtime("ElPtbQ.UHuLtw:DRTqW4GMwBT_yhStIlsTjG3zg5JID8ZZB3R-m3u7nJk");
-      realtime.connection.once('connected')
+      rt.connection.once('connected')
         .then(()=>{
           console.log('Connected to Ably');
-          const channel = realtime.channels.get('c', {params: {occupancy: 'metrics.subscribers', rewind: '1'}});
-          channel.subscribe(msg=>{
+          const c = rt.channels.get('c', {params: {occupancy: 'metrics.subscribers', rewind: '1'}});
+          c.subscribe(msg=>{
             console.log("Received message:", msg);
             clearInterval(flashInterval);
             var flashCt = 0;
@@ -29,7 +29,7 @@
           })
             .then(()=>console.log("successfully subscribed to messages"))
             .catch(console.error);
-          channel.subscribe('[meta]occupancy', msg=>{
+          c.subscribe('[meta]occupancy', msg=>{
             console.log('Recieved Subscriber Count: ', msg);
           })
             .then(()=>console.log("successfully subscribed to occupancy"))
