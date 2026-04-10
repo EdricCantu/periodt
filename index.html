@@ -218,6 +218,54 @@
         ctx.textBaseline = "middle";
         ctx.fillStyle = "#000";
         ctx.fillText(window.statusText.text, 400, 525);
+      }else{
+        switch(stateInfo.schedule){
+          case "regular":
+            
+            break;
+          case "peprally":
+            
+            break;
+          case "sel1":
+            
+            break;
+          case "1sel":
+            break;
+          case "sel2":
+            break;
+          case "2sel":
+            break;
+          case "sel3":
+            break;
+          case "3sel":
+            break;
+          case "sel4":
+            break;
+          case "4sel":
+            break;
+          case "sel5":
+            break;
+          case "5sel":
+            break;
+          case "sel6":
+            break;
+          case "6sel":
+            break;
+          case "sel7":
+            break;
+          case "7sel":
+            break;
+          case "sel8":
+            break;
+          case "8sel":
+            break;
+          case "sel9":
+            break;
+          case "9sel":
+            break;
+          default:
+            break;
+        }
       }
       requestAnimationFrame(draw);
     }
@@ -225,9 +273,8 @@
     
     function drawPeriods(date){
       pcol = 0
-        //      f00   f80    ff0   0f0  080  00f   0ff  80f     f0f
-        //      red orange yellow lime green blue cyan purple magenta
-        //black                                                       white
+        //            f00   f80    ff0   0f0  080  00f   0ff  80f     f0f
+        //            red orange yellow lime green blue cyan purple magenta
       colors   = ([0,"f00","f80","ff0","0f0","080","00f","0ff","80f","f0f"])
       uncolors =  [0,"fff","fff","000","000","fff","fff","000","fff","000"]
       time = date.getHours() * 3600000 + date.getMinutes() * 60000 + date.getSeconds() * 1000 + date.getMilliseconds();
@@ -285,7 +332,7 @@
         splitText(
           formatRemaining((45*60*1000)*(1-percent))+` left for ${[0,"1ˢᵗ","2ⁿᵈ","3ʳᵈ","4ᵗʰ","5ᵗʰ","6ᵗʰ","7ᵗʰ","8ᵗʰ","9ᵗʰ"][(t)/2]}`,
           elapsed, ...textcols
-        )
+        );
       }
     }
   </script>
