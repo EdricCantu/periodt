@@ -25,7 +25,7 @@
               if(flashCt == 10) clearInterval(flashInterval);
             }
             flashInterval = setInterval(flash,333);
-            window.stateInfo = JSON.parse(msg.data);
+            window.stateInfo = msg.data;
           })
             .then(()=>console.log("successfully subscribed to messages"))
             .catch(console.error);
