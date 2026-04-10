@@ -4,6 +4,8 @@
     <script src="./tsync.js"></script><!--TimeSync-->
     <script src="https://cdn.ably.com/lib/ably.min-2.js"></script><!--Realtime Applications-->
     <script id="">
+      window.flashInterval = 0;
+      window.statusText = undefined;
       window.stateInfo = {bell:"automatic"/*manual,silent*/, schedule:"regular"/*peprally,sel6,6sel*/, offset:7000, states:0b0000};
       //softLD, hardLD, MedHold, FireAlarm,  
       
@@ -15,6 +17,14 @@
           const channel = realtime.channels.get('c', {params: {occupancy: 'metrics.subscribers', rewind: '1'}});
           channel.subscribe(msg=>{
             console.log("Received message:", msg);
+            clearInterval(flashInterval);
+            var flashCt = 0;
+            function flash(){
+              flashCt++;
+              window.statusText = (flashCt%2)?{size: "50px", text: "Pulled Update"}:undefined
+              if(flashCt == 10) clearInterval(flashInterval);
+            }
+            flashInterval = setInterval(flash,333);
             window.stateInfo = JSON.parse(msg.data);
           })
             .then(()=>console.log("successfully subscribed to messages"))
@@ -197,7 +207,13 @@
         
       }
       if(drawPeriods) drawPeriods(date);
-
+      if(window.statusText){
+        ctx.font = window.statusText.size+" Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#000";
+        ctx.fillText(window.statusText.text);
+      }
       requestAnimationFrame(draw);
     }
     draw()
