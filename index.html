@@ -1,7 +1,32 @@
 <!DOCTYPE html> 
 <html>
   <head>
-    <script src="./tsync.js"></script>
+    <script src="./tsync.js"></script><!--TimeSync-->
+    <script src="https://cdn.ably.com/lib/ably.min-2.js"></script><!--Realtime Applications-->
+    <script id="">
+      window.stateInfo = {bell:"automatic"/*manual,silent*/, schedule:"regular"/*peprally,sel6,6sel*/, offset:7700, states:0b0000};
+      //softLD, hardLD, MedHold, FireAlarm,  
+      
+      //const realtime = new Ably.Realtime({key: 'YOUR_ABLY_API_KEY',autoConnect: typeof window !== 'undefined'});
+      const rt = new Ably.Realtime("ElPtbQ.UHuLtw:DRTqW4GMwBT_yhStIlsTjG3zg5JID8ZZB3R-m3u7nJk");
+      realtime.connection.once('connected')
+        .then(()=>{
+          console.log('Connected to Ably');
+          const channel = realtime.channels.get('c', {params: {occupancy: 'metrics.subscribers', rewind: '1'}});
+          channel.subscribe(msg=>{
+            console.log("Received message:", msg);
+            window.stateInfo = JSON.parse(msg.data);
+          })
+            .then(()=>console.log("successfully subscribed to messages"))
+            .catch(console.error);
+          channel.subscribe('[meta]occupancy', msg=>{
+            console.log('Recieved Subscriber Count: ', msg);
+          })
+            .then(()=>console.log("successfully subscribed to occupancy"))
+            .catch(console.error);
+        })
+        .catch(console.error);
+    </script>
   </head>
   <body>
     <canvas id="can" width="800" height="550" style="border: 1px solid black"></canvas>
@@ -98,7 +123,6 @@
     //time
     h24 = false;
 
-    offset = 7700;
     t = 0;
     times = [
       "00:00",
@@ -125,7 +149,7 @@
 
     for(const i in times){
       times[i] = times[i].split(":").map(num=>parseInt(num));
-      times[i] = (times[i][0] * 3600 + times[i][1] * 60) * 1000 + offset;
+      times[i] = (times[i][0] * 3600 + times[i][1] * 60) * 1000 + stateInfo.offset;
     }
     function draw(){
       ctx.fillStyle = "white";
