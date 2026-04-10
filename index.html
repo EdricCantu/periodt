@@ -35,7 +35,7 @@
             .then(()=>console.log("successfully subscribed to occupancy"))
             .catch(console.error);
           const r = rt.channels.get('r')
-          v.subscribe(msg=>{
+          r.subscribe(msg=>{
             location.reload();
           });
         })
