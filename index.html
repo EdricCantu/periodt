@@ -74,7 +74,7 @@
         }).catch(()=>{})
       }
     }else{
-      localStorage.systoff = undefined;
+      try{localStorage.removeItem("systoff")}catch{}
     }
     
     function nowDate() {
