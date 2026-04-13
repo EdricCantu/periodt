@@ -42,7 +42,13 @@ channels publish r .
             .catch(console.error);
           const r = rt.channels.get('r')
           r.subscribe(msg=>{
-            location.href += "?serverreload";
+            if(location.search){
+              const params = new URLSearchParams(window.location.search);
+              params.set("serverreload", "1");
+              location.search = "?"+params;
+            }else{
+              location.search = "?serverreload=1";
+            }
           });
         })
         .catch(console.error);
@@ -66,12 +72,12 @@ channels publish r .
   <script>
     const params = new URLSearchParams(window.location.search);
     var systoff = parseInt(params.get("systoff") || "0");
-    
     if(!systoff){
       if(localStorage.systoff){
         systoff = localStorage.systoff;
-        if(location.href.endsWith("?serverreload")){
-          location.replaceState({}, "Periodt", "/periodt");
+        if(params.get("serverreload") == "1"){
+          params.delete("serverreload");
+          window.history.replaceState({}, "Periodt", "/periodt?"+params);
           console.log("webpage was reloaded by server");
         }
         console.log("using cached systoff: "+systoff);
