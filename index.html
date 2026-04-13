@@ -70,14 +70,14 @@ channels publish r .
       positive means first bell rings sometime after 8:40
     -->
   <script>
-    const params = new URLSearchParams(window.location.search);
+    var params = new URLSearchParams(window.location.search);
     var systoff = parseInt(params.get("systoff") || "0");
     if(!systoff){
       if(localStorage.systoff){
         systoff = localStorage.systoff;
         if(params.get("serverreload") == "1"){
           params.delete("serverreload");
-          window.history.replaceState({}, "Periodt", "/periodt?"+params);
+          window.history.replaceState({}, "Periodt", "/periodt"+(params?("?"+params):""));
           console.log("webpage was reloaded by server");
         }
         console.log("using cached systoff: "+systoff);
