@@ -1,3 +1,6 @@
+<!--
+channels publish c "{\"bell\":\"automatic\",\"schedule\":\"regular\",\"offset\":0,\"states\":0}"
+-->
 <!DOCTYPE html> 
 <html>
   <head>
@@ -6,7 +9,7 @@
     <script id="">
       window.flashInterval = 0;
       window.statusText = undefined;
-      window.stateInfo = {bell:"automatic"/*manual,silent*/, schedule:"regular"/*peprally,sel6,6sel*/, offset:5400, states:0b0000};
+      window.stateInfo = {bell:"automatic"/*manual,silent*/, schedule:"regular"/*peprally,sel6,6sel*/, offset:0, states:0b0000};
       //softLD, hardLD, MedHold, FireAlarm,  
       
       //const realtime = new Ably.Realtime({key: 'YOUR_ABLY_API_KEY',autoConnect: typeof window !== 'undefined'});
