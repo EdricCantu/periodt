@@ -6,7 +6,7 @@
     <script id="">
       window.flashInterval = 0;
       window.statusText = undefined;
-      window.stateInfo = {bell:"automatic"/*manual,silent*/, schedule:"regular"/*peprally,sel6,6sel*/, offset:7000, states:0b0000};
+      window.stateInfo = {bell:"automatic"/*manual,silent*/, schedule:"regular"/*peprally,sel6,6sel*/, offset:5400, states:0b0000};
       //softLD, hardLD, MedHold, FireAlarm,  
       
       //const realtime = new Ably.Realtime({key: 'YOUR_ABLY_API_KEY',autoConnect: typeof window !== 'undefined'});
@@ -26,6 +26,7 @@
             }
             flashInterval = setInterval(flash,333);
             window.stateInfo = msg.data;
+            refreshSchedule();
           })
             .then(()=>console.log("successfully subscribed to messages"))
             .catch(console.error);
@@ -139,32 +140,45 @@
     h24 = false;
 
     t = 0;
-    times = [
-      "00:00",
-      "08:40",
-      "08:45",
-      "09:30",
-      "09:35",
-      "10:20",
-      "10:25",
-      "11:10",
-      "11:15",
-      "12:00",
-      "12:05",
-      "12:50",
-      "12:55",
-      "13:40",
-      "13:45",
-      "14:30",
-      "14:35",
-      "15:20",
-      "15:25",
-      "16:10",
-    ];
-
-    for(const i in times){
-      times[i] = times[i].split(":").map(num=>parseInt(num));
-      times[i] = (times[i][0] * 3600 + times[i][1] * 60) * 1000 + stateInfo.offset;
+    times = [];
+    names = [];
+    function refreshSchedule(){
+      console.log("Schedule refreshed");
+      if(stateInfo.schedule === "regular"){
+        times = [
+          "00:00",
+          "08:40",
+          "08:45",
+          "09:30",
+          "09:35",
+          "10:20",
+          "10:25",
+          "11:10",
+          "11:15",
+          "12:00",
+          "12:05",
+          "12:50",
+          "12:55",
+          "13:40",
+          "13:45",
+          "14:30",
+          "14:35",
+          "15:20",
+          "15:25",
+          "16:10"
+        ];
+        names = [
+          ""
+        ];
+      }else if(stateInfo.schedule === "peprally"){
+        
+      }else{
+        
+      }
+      for(const i in times){
+        times[i] = times[i].split(":").map(num=>parseInt(num));
+        times[i] = (times[i][0] * 3600 + times[i][1] * 60) * 1000 + stateInfo.offset;
+      }
     }
     function draw(){
       ctx.fillStyle = "white";
