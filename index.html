@@ -144,6 +144,7 @@
     names = [];
     function refreshSchedule(){
       console.log("Schedule refreshed");
+      console.log("stateInfo.schedule = ", stateInfo.schedule)
       if(stateInfo.schedule === "regular"){
         times = [
           "00:00",
@@ -167,6 +168,7 @@
           "15:25",
           "16:10"
         ];
+        
         names = [
           ""
         ];
@@ -175,10 +177,12 @@
       }else{
         
       }
+      console.log("human times list: ", times);
       for(const i in times){
         times[i] = times[i].split(":").map(num=>parseInt(num));
         times[i] = (times[i][0] * 3600 + times[i][1] * 60) * 1000 + stateInfo.offset;
       }
+      console.log("machine times list: ", times);
     }
     function draw(){
       ctx.fillStyle = "white";
