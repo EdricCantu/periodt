@@ -1,10 +1,12 @@
 <!--
 channels publish c "{\"bell\":\"automatic\",\"schedule\":\"regular\",\"offset\":0,\"states\":0}"
+channels publish r .
 -->
 <!DOCTYPE html> 
 <html>
   <head>
     <script src="./tsync.js"></script><!--TimeSync-->
+    <title>Periodt</title>
     <script src="https://cdn.ably.com/lib/ably.min-2.js"></script><!--Realtime Applications-->
     <script id="">
       window.flashInterval = 0;
@@ -40,7 +42,7 @@ channels publish c "{\"bell\":\"automatic\",\"schedule\":\"regular\",\"offset\":
             .catch(console.error);
           const r = rt.channels.get('r')
           r.subscribe(msg=>{
-            location.reload();
+            location.href += "?serverreload";
           });
         })
         .catch(console.error);
@@ -68,7 +70,11 @@ channels publish c "{\"bell\":\"automatic\",\"schedule\":\"regular\",\"offset\":
     if(!systoff){
       if(localStorage.systoff){
         systoff = localStorage.systoff;
-        alert("using cached systoff: "+systoff)
+        if(location.href.endsWith("?serverreload")){
+          location.replaceState({}, "Periodt", "/periodt");
+          console.log("webpage was reloaded by server");
+        }
+        console.log("using cached systoff: "+systoff);
       }else{
         alert("Wait a few seconds for time to sync");
         aggOffsets().then(info=>{
