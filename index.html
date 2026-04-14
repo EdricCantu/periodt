@@ -205,7 +205,7 @@ channels publish r .
       ctx.fillStyle = "black";
       ctx.textAlign = "left";
       ctx.textBaseline = "middle";
-      ctx.font = "250px monospace";
+      ctx.font = "250px Arial";
       date = nowDate();
       th = (date.getHours() % (h24 ? 24 : 12));
       if(!(h24 || th)) th = 12
@@ -225,10 +225,10 @@ channels publish r .
       ctx.fillText(th, 0, 120);
       if(tl < 500) ctx.fillText(":", wc*1.8, 100);
       ctx.fillText(tm, wc*2.6, 120);
-      ctx.font = "75px monospace";
+      ctx.font = "75px Arial";
       ctx.fillText(ts, 695, 60)
       ctx.fillText(h24?"":t2, 695, 170);
-      ctx.font = "150px monospace";
+      ctx.font = "150px Arial";
       ctx.textAlign = "center";
       ctx.fillText(`${dm}/${dd}/${dy}`,400,275);
       ctx.font = "90px Arial";
