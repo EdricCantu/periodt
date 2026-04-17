@@ -155,28 +155,6 @@ channels publish r .
     h24 = false;
 
     t = 0;
-    times = [
-          "00:00",
-          "08:40",
-          "08:45",
-          "09:30",
-          "09:35",
-          "10:20",
-          "10:25",
-          "11:10",
-          "11:15",
-          "12:00",
-          "12:05",
-          "12:50",
-          "12:55",
-          "13:40",
-          "13:45",
-          "14:30",
-          "14:35",
-          "15:20",
-          "15:25",
-          "16:10"
-        ];
     names = [];
     function refreshSchedule(){
       console.log("Schedule refreshed");
@@ -323,8 +301,8 @@ channels publish r .
       }
       requestAnimationFrame(draw);
     }
+    refreshSchedule();
     draw()
-    
     function drawPeriods(date){
       pcol = 0
         //            f00   f80    ff0   0f0  080  00f   0ff  80f     f0f
