@@ -56,8 +56,8 @@ channels publish r .
     </script>
   </head>
   <body>
-    <!--<canvas id="can" width="800" height="550" style="border: 1px solid black width: 9.6cm; height: 6.6cm"></canvas>-->
-    <span style="background: white; color: black;">SEL schedules not yet supported</span>
+    <canvas id="can" width="800" height="550" style="border: 1px solid black width: 9.6cm; height: 6.6cm"></canvas>
+    <!--<span style="background: white; color: black;">SEL schedules not yet supported</span>-->
   </body>
   <!--systoff --- 
     (tddisplay is offset by <systoff>, when using <reference> as a reference)
@@ -183,7 +183,30 @@ channels publish r .
           "15:25",
           "16:10"
         ];
-        
+        times = [
+          "00:00",
+          "08:40",
+          "08:45",
+          "09:25",
+          "09:30",
+          "10:10",
+          "10:15",
+          "10:55",
+          "11:00",
+          "11:40",
+          "11:45",
+          "12:25",
+          "12:30",
+          "13:10",
+          "13:15",
+          "13:55",
+          "14:00",
+          "14:40",
+          "14:45",
+          "15:25",
+          "15:30",
+          "16:10"
+        ];
         names = [
           ""
         ];
@@ -342,7 +365,7 @@ channels publish r .
           ctx.textBaseline = "middle";
           ctx.fillStyle = "white";
           splitText(
-            formatRemaining((5*60*1000)*(1-percent))+` until ${[0,"1ˢᵗ","2ⁿᵈ","3ʳᵈ","4ᵗʰ","5ᵗʰ","6ᵗʰ","7ᵗʰ","8ᵗʰ","9ᵗʰ"][(t+1)/2]}`,
+            formatRemaining((5*60*1000)*(1-percent))+` until ${[0,"1ˢᵗ","2ⁿᵈ","3ʳᵈ","4ᵗʰ","5ᵗʰ","6ᵗʰ","SEL","7ᵗʰ","8ᵗʰ","9ᵗʰ"][(t+1)/2]}`,
             elapsed, "#"+uncolors[(t/2)+0.5], "#"+uncolors[(t/2)-0.5]
           )
         }
@@ -363,7 +386,7 @@ channels publish r .
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         splitText(
-          formatRemaining((45*60*1000)*(1-percent))+` left for ${[0,"1ˢᵗ","2ⁿᵈ","3ʳᵈ","4ᵗʰ","5ᵗʰ","6ᵗʰ","7ᵗʰ","8ᵗʰ","9ᵗʰ"][(t)/2]}`,
+          formatRemaining((45*60*1000)*(1-percent))+` left for ${[0,"1ˢᵗ","2ⁿᵈ","3ʳᵈ","4ᵗʰ","5ᵗʰ","6ᵗʰ","SEL","7ᵗʰ","8ᵗʰ","9ᵗʰ"][(t)/2]}`,
           elapsed, ...textcols
         );
       }
