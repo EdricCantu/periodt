@@ -367,5 +367,12 @@ channels publish r .
         );
       }
     }
+    clearInterval(flashInterval);
+    var flashCt = 0;
+    function flash(){
+      flashCt++;
+      window.statusText = (flashCt%2)?{size: "40px", text: "Ms. Hernandez's B-Day 🎉"}:undefined
+    }
+    flashInterval = setInterval(flash,333);
   </script>
 </html>
